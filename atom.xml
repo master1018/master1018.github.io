@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-01-13T14:40:14.128Z</updated>
+  <updated>2023-01-14T16:19:14.065Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,55 +17,29 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>测试文件</title>
-    <link href="http://example.com/2023/01/13/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6/"/>
-    <id>http://example.com/2023/01/13/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6/</id>
-    <published>2023-01-13T14:37:32.000Z</published>
-    <updated>2023-01-13T14:40:14.128Z</updated>
+    <title>【OJ】计算系数</title>
+    <link href="http://example.com/2023/01/14/%E3%80%90OJ%E3%80%91%E8%AE%A1%E7%AE%97%E7%B3%BB%E6%95%B0/"/>
+    <id>http://example.com/2023/01/14/%E3%80%90OJ%E3%80%91%E8%AE%A1%E7%AE%97%E7%B3%BB%E6%95%B0/</id>
+    <published>2023-01-14T15:33:10.000Z</published>
+    <updated>2023-01-14T16:19:14.065Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="文章测试部分"><a href="#文章测试部分" class="headerlink" title="文章测试部分"></a>文章测试部分</h1><p>用于测试hexo的搭建</p><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>test</p><pre><code class="python">import testprint(&quot;hello world&quot;)</code></pre>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h1 id=&quot;文章测试部分&quot;&gt;&lt;a href=&quot;#文章测试部分&quot; class=&quot;headerlink&quot; title=&quot;文章测试部分&quot;&gt;&lt;/a&gt;文章测试部分&lt;/h1&gt;&lt;p&gt;用于测试hexo的搭建&lt;/p&gt;
-&lt;h2 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;heade</summary>
-      
-    
-    
-    
-    <category term="测试文件" scheme="http://example.com/categories/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6/"/>
-    
-    
-    <category term="test" scheme="http://example.com/tags/test/"/>
-    
-    <category term="hello world" scheme="http://example.com/tags/hello-world/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://example.com/2023/01/12/hello-world/"/>
-    <id>http://example.com/2023/01/12/hello-world/</id>
-    <published>2023-01-12T15:43:02.327Z</published>
-    <updated>2023-01-13T14:39:07.548Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;</code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+    <content type="html"><![CDATA[<blockquote><h1 id="NOIP2011-提高组-计算系数"><a href="#NOIP2011-提高组-计算系数" class="headerlink" title="[NOIP2011 提高组] 计算系数"></a>[NOIP2011 提高组] 计算系数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个多项式 $(by+ax)^k$，请求出多项式展开后 $x^n\times y^m$ 项的系数。</p><h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>输入共一行，包含 $5$ 个整数，分别为 $a,b,k,n,m$，每两个整数之间用一个空格隔开。</p><h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出共一行，包含一个整数，表示所求的系数。</p><p>这个系数可能很大，输出对 $10007$ 取模后的结果。</p><h2 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h2><h3 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h3><pre><code>1 1 3 1 2</code></pre><h3 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><pre><code>3</code></pre><h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>【数据范围】</p><p>对于 $30%$ 的数据，有 $ 0\le k\le 10$。</p><p>对于 $50%$ 的数据，有 $ a&#x3D;1$，$b&#x3D;1$。</p><p>对于 $100%$ 的数据，有 $0\le k\le 1000$，$0\le n,m\le k$，$n+m&#x3D;k$，$0\le a,b\le 10^6$。</p><p>noip2011 提高组 day2 第 1 题。</p></blockquote><p>第一眼思路：Cnm排列组合+快速模幂，然而太天真了。。。</p><p>如果用Cnm的话，会牵扯到除法的模幂运算，然后又是逆元一些乱七八槽的玩意（不过有老哥貌似能推出来其他的计算公式）。</p><p>既然Cnm走不通，那就去<del>百度</del>思考其他的方法。先考虑a和b均为1的形式：</p><pre><code>(x + y)^1 = x + y(x + y)^2 = x^2 + 2xy + y^2(x + 3)^3 = x^3 + 3xy^2 + 3x^2y + y^3</code></pre><p>这样看可能不太明显，换一种表达方式 </p><pre><code>1 11 2 11 3 3 1</code></pre><p>似乎是杨辉三角。。。根据初中的知识，杨辉三角是和二项式定理紧密相关的。</p><p><img src="1.png" alt="1"></p><p>那么事情就好办很多，直接dp，设杨辉三角的二维数组表达形式为<code>f(i, j)</code>，那么最终答案的表达式应该是：</p><p>ans &#x3D; f(i, j) * a^n * b^m，最终代码如下：</p><pre><code class="c++">#include &lt;iostream&gt;using namespace std;#define MOD (10007)typedef unsigned long long int ll;ll f[1005][1005] = &#123;&#123;0&#125;&#125;;ll a, b, k, n, m;void fun()&#123;    f[1][1] = 1;    for (ll i = 2; i &lt;= 1001; i++)    &#123;        f[i][1] = f[i][i] = 1;        for (ll j = 2; j &lt;= i - 1; j++)            f[i][j] = (f[i - 1][j - 1] + f[i - 1][j]) % MOD;     &#125;&#125;ll quick_pow(ll x, ll y)&#123;    ll ans = 1;    while (y)    &#123;        if (y &amp; 1)            ans = ans * x % MOD;        x = (x * x) % MOD;        y &gt;&gt;= 1;    &#125;        return ans;&#125;int main()&#123;    fun();    cin &gt;&gt; a &gt;&gt; b &gt;&gt; k &gt;&gt; n &gt;&gt; m;    // x^n X y^m    cout &lt;&lt; (f[k + 1][m + 1] * (quick_pow(a, n) * quick_pow(b, m) % MOD)) % MOD &lt;&lt; endl;&#125;</code></pre>]]></content>
     
     
       
       
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
+    <summary type="html">&lt;blockquote&gt;
+&lt;h1 id=&quot;NOIP2011-提高组-计算系数&quot;&gt;&lt;a href=&quot;#NOIP2011-提高组-计算系数&quot; class=&quot;headerlink&quot; title=&quot;[NOIP2011 提高组] 计算系数&quot;&gt;&lt;/a&gt;[NOIP2011 提高组] 计算系数&lt;</summary>
       
     
     
     
-    <category term="测试文件" scheme="http://example.com/categories/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6/"/>
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
     
     
-    <category term="test" scheme="http://example.com/tags/test/"/>
+    <category term="dp" scheme="http://example.com/tags/dp/"/>
     
-    <category term="hello world" scheme="http://example.com/tags/hello-world/"/>
+    <category term="数论" scheme="http://example.com/tags/%E6%95%B0%E8%AE%BA/"/>
     
   </entry>
   
