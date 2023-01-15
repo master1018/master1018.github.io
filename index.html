@@ -175,6 +175,14 @@
     <div class="category-and-date">
 
         
+        <span class="category">
+            <a href="/categories/算法题">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" /></span>
+                算法题
+            </a>
+        </span>
+        
 
         <span class="date">
             <span class="icon">
@@ -188,94 +196,9 @@
     <div class="excerpt">
         <div class="content" v-pre>
             
-            
             <p><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/1779/C">Problem - 1779C - Codeforces</a></p>
 <p><img src="1.png" alt="1"></p>
-<p>该题大概的意思是，通过将数组中的元素取反，使得给定一个m，其前缀和a1 + a2 + … + am的值在该数组的所有前缀和中最小。</p>
-<p>对于前缀和的问题，写出表达式会比较明显，设i的前缀和为sum[i] = a[1] + a[2] + a[3] + … + a[i]。根据题意可知最终操作后m需满足，sum[m] &lt;= sum[k]，1 &lt;= k &lt;= n。 </p>
-<p>首先对于k &lt;= m的情况，有sum[m] &lt;= sum[k] —&gt; sum[m] - sum[k] &lt;= 0；</p>
-<p>同理对于k &gt; m的情况，有sum[k] - sum[m] &gt;= 0。</p>
-<p>因此我们的取反操作需要满足以上两个条件，这里采用了一个贪心的思维，以k &lt;= m的情况为例，要令sum[m] - sum[k] &lt;= 0，我们肯定希望sum[k]越大越好，在取反操作时，为节省次数，一定是希望选取a[1]到a[k]中最小的负数，让其取反，这样sum[k]就相对会变得更大。为寻找这样一个最小的负数，可以使用优先队列来节省时间，那么这部分的代码可以写成：</p>
-<pre><code class="lang-c++">priority_queue&lt;ll&gt; q1;
-// sum(k1 + 1, m) &lt;= 0, k1 &gt;= 1
-for (int i = m; i &gt;= 2; i--)
-&#123;
-    q1.push(arr[i]);
-    sum += arr[i];
-    if (sum &gt; 0) // 这里要维持sum(k1 + 1, m) &lt;= 0的条件
-    &#123;
-        sum -= 2 * abs(q1.top());
-        q1.pop();
-        ans++;
-    &#125; 
-&#125;
-</code></pre>
-<p>在这里，我们需要倒叙遍历i，其实也就是sum(k1 + 1, m)的长度不断的递增（为什么这样做，感觉就是潜意识就这样想了。。。）。</p>
-<p>同样对于k &gt; m的操作，顺序遍历i，然后保持每一个sum大于0就行了。</p>
-<p>AC代码如下：</p>
-<pre><code class="lang-c++">#include &lt;iostream&gt;
-#include &lt;queue&gt;
-#include &lt;cmath&gt;
-using namespace std;
-
-typedef long long int ll;
-
-ll arr[200005] = &#123;0&#125;;
-ll sum = 0;
-
-int main()
-&#123;
-    ll t, m, n;
-    cin &gt;&gt; t;
-    for (int k = 1; k &lt;= t; k++)
-    &#123;
-        cin &gt;&gt; n &gt;&gt; m;
-        int ans = 0;
-        priority_queue&lt;ll&gt; q1;
-        priority_queue&lt;ll, vector&lt;ll&gt;, greater&lt;ll&gt; &gt; q2;
-        for (int i = 1; i &lt;= n; i++)
-            cin &gt;&gt; arr[i];
-        if (n == 1)
-        &#123;
-            cout &lt;&lt; 0 &lt;&lt; endl;
-            continue;;
-        &#125;
-
-        sum = 0;
-        // sum(k1 + 1, m) &lt;= 0, k1 &gt;= 1
-        for (int i = m; i &gt;= 2; i--)
-        &#123;
-            q1.push(arr[i]);
-            sum += arr[i];
-            if (sum &gt; 0)
-            &#123;
-                sum -= 2 * abs(q1.top());
-                q1.pop();
-                ans++;
-            &#125; 
-        &#125;
-
-        sum = 0;
-        // sum(m + 1, k2) &lt;= 0, k2 &lt;= n
-        for (int i = m + 1; i &lt;= n; i++)
-        &#123;
-            q2.push(arr[i]);
-            sum += arr[i];
-            if (sum &lt; 0)
-            &#123;
-                sum += 2 * abs(q2.top());
-                q2.pop();
-                ans++;
-            &#125;
-        &#125;
-
-        cout &lt;&lt; ans &lt;&lt; endl;
-    &#125;
-    system(&quot;pause&quot;);
-    return 0;
-&#125;
-</code></pre>
-
+            
             
         </div>
     </div>
@@ -367,14 +290,14 @@ int main()
         
         <span class="tag">
             
-            <a href="/tags/dp" style=color:#00a596>
+            <a href="/tags/dp" style=color:#03a9f4>
                 dp
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/数论" style=color:#ffa2c4>
+            <a href="/tags/数论" style=color:#03a9f4>
                 数论
             </a>
         </span>
