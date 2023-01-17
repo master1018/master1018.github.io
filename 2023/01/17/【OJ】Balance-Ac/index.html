@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yhr&#39;s blog || 【OJ】计算系数</title>
+    <title>yhr&#39;s blog || 【OJ】Balance Ac</title>
     <meta name="author" content="Gardevoir">
     <meta name="description" content=" ">
     <meta name="keywords" content=" ">
@@ -138,14 +138,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>【OJ】计算系数 </h1>
+        <h1>【OJ】Balance Ac </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2023/1/14
+            2023/1/17
         </span>
 
         
@@ -168,15 +168,15 @@
             
             <span class="tag">
                 
-                <a href="/tags/dp" style=color:#ff7d73>
-                    dp
+                <a href="/tags/树" style=color:#03a9f4>
+                    树
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/数论" style=color:#03a9f4>
-                    数论
+                <a href="/tags/搜索" style=color:#00bcd4>
+                    搜索
                 </a>
             </span>
             
@@ -185,74 +185,91 @@
     </div>
 
     <div class="content" v-pre>
-        <blockquote>
-<h1 id="NOIP2011-提高组-计算系数"><a href="#NOIP2011-提高组-计算系数" class="headerlink" title="[NOIP2011 提高组] 计算系数"></a>[NOIP2011 提高组] 计算系数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个多项式 $(by+ax)^k$，请求出多项式展开后 $x^n\times y^m$ 项的系数。</p>
-<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>输入共一行，包含 $5$ 个整数，分别为 $a,b,k,n,m$，每两个整数之间用一个空格隔开。</p>
-<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出共一行，包含一个整数，表示所求的系数。</p>
-<p>这个系数可能很大，输出对 $10007$ 取模后的结果。</p>
-<h2 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h2><h3 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h3><pre><code>1 1 3 1 2
-</code></pre><h3 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><pre><code>3
-</code></pre><h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>【数据范围】</p>
-<p>对于 $30\%$ 的数据，有 $ 0\le k\le 10$。</p>
-<p>对于 $50\%$ 的数据，有 $ a=1$，$b=1$。</p>
-<p>对于 $100\%$ 的数据，有 $0\le k\le 1000$，$0\le n,m\le k$，$n+m=k$，$0\le a,b\le 10^6$。</p>
-<p>noip2011 提高组 day2 第 1 题。</p>
-</blockquote>
-<span id="more"></span>
-<p>第一眼思路：Cnm排列组合+快速模幂，然而太天真了。。。</p>
-<p>如果用Cnm的话，会牵扯到除法的模幂运算，然后又是逆元一些乱七八槽的玩意（不过有老哥貌似能推出来其他的计算公式）。</p>
-<p>既然Cnm走不通，那就去<del>百度</del>思考其他的方法。先考虑a和b均为1的形式：</p>
-<pre><code>(x + y)^1 = x + y
-
-(x + y)^2 = x^2 + 2xy + y^2
-
-(x + 3)^3 = x^3 + 3xy^2 + 3x^2y + y^3
-</code></pre><p>这样看可能不太明显，换一种表达方式 </p>
-<pre><code>1 1
-1 2 1
-1 3 3 1
-</code></pre><p>似乎是杨辉三角。。。根据初中的知识，杨辉三角是和二项式定理紧密相关的。</p>
+        <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><span id="more"></span>
 <p><img src="1.png" alt="1"></p>
-<p>那么事情就好办很多，直接dp，设杨辉三角的二维数组表达形式为<code>f(i, j)</code>，那么最终答案的表达式应该是：</p>
-<p>ans = f(i, j) <em> a^n </em> b^m，最终代码如下：</p>
+<p>题目所指示的实际上就是求树的重心。</p>
+<p>以下摘自oi-wiki：</p>
+<pre><code>定义
+对于树上的每一个点，计算其所有子树中最大的子树节点数，这个值最小的点就是这棵树的重心。
+（这里以及下文中的“子树”都是指无根树的子树，即包括“向上”的那棵子树，并且不包括整棵树自身。）
+
+性质
+以树的重心为根时，所有子树的大小都不超过整棵树大小的一半。
+树中所有点到某个点的距离和中，到重心的距离和是最小的；如果有两个重心，那么到它们的距离和一样。
+把两棵树通过一条边相连得到一棵新的树，那么新的树的重心在连接原来两棵树的重心的路径上。
+在一棵树上添加或删除一个叶子，那么它的重心最多只移动一条边的距离。
+</code></pre><p>但其实这题的思路就是用搜索去求每个结点的balance，然后依次遍历，输出balance最小的结点。（感觉遇到图的题，总觉得直接搜索会超时。。。）。</p>
+<p>定义数据结构Tree如下：</p>
+<pre><code class="lang-c++">struct  Tree
+&#123;
+    int balance;
+    vector&lt;int&gt; next;
+&#125;;
+</code></pre>
+<p>在dfs过程中，我们需要计算的数据有子树的结点数tmp，最大字数的结点数size，所有子树的结点数之和sum以及题目要求的balance。</p>
+<p>tmp的计算通过dfs进行更新，size则取最大的tmp值，以及sum，这些参数通过遍历即可计算。而balance的计算，通过比较size和N - sum - 1；之所以这样计算，是因为在dfs的过程中，我们初始已经假设某个点作为根节点，因此获得的子树的结点个数都是遍历当前结点的子节点来获取的，但其实如果把当前结点看作根节点的话，其父节点向上的所有结点也是一个子树，而其结点个数正是N - sum - 1。以题目中图为例，如果2作为根节点，则计算1的balance时，不仅需要遍历1的子树，还需要遍历1的父节点2和6构成的子树。</p>
+<p>最后完整代码如下：</p>
 <pre><code class="lang-c++">#include &lt;iostream&gt;
+
+#include &lt;vector&gt;
 using namespace std;
 
-#define MOD (10007)
-typedef unsigned long long int ll;
-ll f[1005][1005] = &#123;&#123;0&#125;&#125;;
-ll a, b, k, n, m;
-
-void fun()
+int visit[20005];
+int n;
+struct  Tree
 &#123;
-    f[1][1] = 1;
-    for (ll i = 2; i &lt;= 1001; i++)
-    &#123;
-        f[i][1] = f[i][i] = 1;
-        for (ll j = 2; j &lt;= i - 1; j++)
-            f[i][j] = (f[i - 1][j - 1] + f[i - 1][j]) % MOD; 
-    &#125;
-&#125;
+    int balance;
+    vector&lt;int&gt; next;
+&#125;;
 
-ll quick_pow(ll x, ll y)&#123;
-    ll ans = 1;
-    while (y)
+int dfs(Tree *tree, int x)
+&#123;
+    if (visit[x]) return 0;
+    else
     &#123;
-        if (y &amp; 1)
-            ans = ans * x % MOD;
-        x = (x * x) % MOD;
-        y &gt;&gt;= 1;
+        visit[x] = 1;
+        int size = 0;
+        int sum = 0;
+        for (int i = 0; i &lt; tree[x].next.size(); i++)
+        &#123;
+            int tmp = dfs(tree, (tree[x].next)[i]); // 子树的结点个数
+            sum += tmp;
+            size = max(size, tmp); // 最大子树的结点个数
+        &#125;
+        tree[x].balance = max(size, n - sum - 1); // 计算balance
+        visit[x] = 0;
+        return sum + 1; 
     &#125;
-
-    return ans;
 &#125;
 
 int main()
 &#123;
-    fun();
-    cin &gt;&gt; a &gt;&gt; b &gt;&gt; k &gt;&gt; n &gt;&gt; m;
-    // x^n X y^m
-    cout &lt;&lt; (f[k + 1][m + 1] * (quick_pow(a, n) * quick_pow(b, m) % MOD)) % MOD &lt;&lt; endl;
+    int t;
+    cin &gt;&gt; t;
+    while (t--)
+    &#123;
+        cin &gt;&gt; n;
+        Tree *tree = new Tree[n + 1];
+        for (int i = 1; i &lt;= n; i++)
+            visit[i] = 0;
+        for (int i = 1; i &lt;= n - 1; i++)
+        &#123;
+            int a, b;
+            cin &gt;&gt; a &gt;&gt; b;
+            tree[a].next.push_back(b);
+            tree[b].next.push_back(a);
+            tree[a].balance = tree[b].balance = 0;
+        &#125;
+        dfs(tree, 6);
+        int ans1, ans2;
+        ans1 = ans2 = 1e8;
+        for (int i = 1; i &lt;= n; i++)
+            if (ans2 &gt; tree[i].balance)
+                ans1 = i, ans2 = tree[i].balance;
+        cout &lt;&lt; ans1 &lt;&lt; &quot; &quot; &lt;&lt; ans2 &lt;&lt; endl;
+        delete []tree;
+    &#125;
+    system(&quot;pause&quot;);
 &#125;
 </code></pre>
 
