@@ -166,6 +166,75 @@
 
 <div class="post">
 
+    <a href="/2023/01/27/【OJ】求和/">
+        <h2>
+            【OJ】求和
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+        <span class="category">
+            <a href="/categories/算法题">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" /></span>
+                算法题
+            </a>
+        </span>
+        
+
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/1/27
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            <p>题目来源：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2671">P2671 [NOIP2015 普及组] 求和 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></p>
+<p>题目中给定三元组（x，y，z），可以发现y根本没有什么作用，只要（x + z）/ 2是一个整数就行了。那么我们所求的三元组就是同奇偶的x和z。</p>
+<p>在计算之前，先进性排序处理，首先将相同color的数放在一起，然后对于相同color的数据，将其按照奇偶进行分开，因此需要自定义cmp函数：</p>
+<pre><code class="lang-c++">bool cmp(const Node &amp;a, const Node &amp;b)
+&#123;
+    if (a.col != b.col)
+        return a.col &lt; b.col;
+    else
+        return a.idx % 2 &lt; b.idx % 2;
+&#125;
+</code></pre>
+            
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/前缀和" style=color:#ffa2c4>
+                前缀和
+            </a>
+        </span>
+        
+    </div>
+
+    <a href="/2023/01/27/【OJ】求和/ " class="go-post">
+        阅读全文
+    </a>
+</div>
+
+<div class="post">
+
     <a href="/2023/01/24/【OJ】迷宫/">
         <h2>
             【OJ】迷宫
@@ -223,7 +292,7 @@
         
         <span class="tag">
             
-            <a href="/tags/dp" style=color:#00bcd4>
+            <a href="/tags/dp" style=color:#00a596>
                 dp
             </a>
         </span>
@@ -296,14 +365,14 @@
         
         <span class="tag">
             
-            <a href="/tags/前缀和" style=color:#ffa2c4>
+            <a href="/tags/前缀和" style=color:#00bcd4>
                 前缀和
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/csp" style=color:#00a596>
+            <a href="/tags/csp" style=color:#ffa2c4>
                 csp
             </a>
         </span>
@@ -362,14 +431,14 @@
         
         <span class="tag">
             
-            <a href="/tags/树" style=color:#03a9f4>
+            <a href="/tags/树" style=color:#00bcd4>
                 树
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/搜索" style=color:#00a596>
+            <a href="/tags/搜索" style=color:#ffa2c4>
                 搜索
             </a>
         </span>
@@ -489,14 +558,14 @@
         
         <span class="tag">
             
-            <a href="/tags/前缀和" style=color:#03a9f4>
+            <a href="/tags/前缀和" style=color:#ff7d73>
                 前缀和
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/优先队列" style=color:#03a9f4>
+            <a href="/tags/优先队列" style=color:#00bcd4>
                 优先队列
             </a>
         </span>
@@ -574,7 +643,7 @@
         
         <span class="tag">
             
-            <a href="/tags/数论" style=color:#00a596>
+            <a href="/tags/数论" style=color:#03a9f4>
                 数论
             </a>
         </span>
