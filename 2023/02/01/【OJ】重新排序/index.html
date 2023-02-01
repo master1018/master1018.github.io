@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yhr&#39;s blog || 【OJ】Least Prefix Sum</title>
+    <title>yhr&#39;s blog || 【OJ】重新排序</title>
     <meta name="author" content="Gardevoir">
     <meta name="description" content=" ">
     <meta name="keywords" content=" ">
@@ -138,14 +138,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>【OJ】Least Prefix Sum </h1>
+        <h1>【OJ】重新排序 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2023/1/15
+            2023/2/1
         </span>
 
         
@@ -168,15 +168,22 @@
             
             <span class="tag">
                 
-                <a href="/tags/前缀和" style=color:#00a596>
+                <a href="/tags/前缀和" style=color:#03a9f4>
                     前缀和
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/优先队列" style=color:#ff7d73>
-                    优先队列
+                <a href="/tags/蓝桥杯" style=color:#00bcd4>
+                    蓝桥杯
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/排序" style=color:#ff7d73>
+                    排序
                 </a>
             </span>
             
@@ -185,91 +192,58 @@
     </div>
 
     <div class="content" v-pre>
-        <p><a target="_blank" rel="noopener" href="https://codeforces.com/problemset/problem/1779/C">Problem - 1779C - Codeforces</a></p>
-<p><img src="1.png" alt="1"></p>
-<span id="more"></span>
-<p>该题大概的意思是，通过将数组中的元素取反，使得给定一个m，其前缀和a1 + a2 + … + am的值在该数组的所有前缀和中最小。</p>
-<p>对于前缀和的问题，写出表达式会比较明显，设i的前缀和为sum[i] = a[1] + a[2] + a[3] + … + a[i]。根据题意可知最终操作后m需满足，sum[m] &lt;= sum[k]，1 &lt;= k &lt;= n。 </p>
-<p>首先对于k &lt;= m的情况，有sum[m] &lt;= sum[k] —&gt; sum[m] - sum[k] &lt;= 0；</p>
-<p>同理对于k &gt; m的情况，有sum[k] - sum[m] &gt;= 0。</p>
-<p>因此我们的取反操作需要满足以上两个条件，这里采用了一个贪心的思维，以k &lt;= m的情况为例，要令sum[m] - sum[k] &lt;= 0，我们肯定希望sum[k]越大越好，在取反操作时，为节省次数，一定是希望选取a[1]到a[k]中最小的负数，让其取反，这样sum[k]就相对会变得更大。为寻找这样一个最小的负数，可以使用优先队列来节省时间，那么这部分的代码可以写成：</p>
-<pre><code class="lang-c++">priority_queue&lt;ll&gt; q1;
-// sum(k1 + 1, m) &lt;= 0, k1 &gt;= 1
-for (int i = m; i &gt;= 2; i--)
-&#123;
-    q1.push(arr[i]);
-    sum += arr[i];
-    if (sum &gt; 0) // 这里要维持sum(k1 + 1, m) &lt;= 0的条件
-    &#123;
-        sum -= 2 * abs(q1.top());
-        q1.pop();
-        ans++;
-    &#125; 
-&#125;
-</code></pre>
-<p>在这里，我们需要倒叙遍历i，其实也就是sum(k1 + 1, m)的长度不断的递增（为什么这样做，感觉就是潜意识就这样想了。。。）。</p>
-<p>同样对于k &gt; m的操作，顺序遍历i，然后保持每一个sum大于0就行了。</p>
-<p>AC代码如下：</p>
+        <p><a target="_blank" rel="noopener" href="https://www.lanqiao.cn/problems/2128/learning/">重新排序 - 蓝桥云课 (lanqiao.cn)</a></p>
+<p>该题的关键点：如何获得重新排序的查询区间之和的最大值。</p>
+<p>可以这样进行考虑，我们希望数组中最大的几个数在我们查询的区间中，这样一来，所查询的和就是数组中最大的几个数的和。另外，题目中区间是可以有重叠的，因此我们可以首先统计每个下标的查询次数，然后将数组进行排序，查询次数最大的坐标存放数组中最大的数（以此类推），这样我们求得的和就是最大。</p>
+<p>统计次数用了前缀和和差分进行处理（不知道正常的遍历会不会超时。</p>
+<p>AC代码：</p>
 <pre><code class="lang-c++">#include &lt;iostream&gt;
-#include &lt;queue&gt;
-#include &lt;cmath&gt;
+#include &lt;algorithm&gt;
 using namespace std;
 
-typedef long long int ll;
+typedef unsigned long long int ll;
 
-ll arr[200005] = &#123;0&#125;;
-ll sum = 0;
+ll sum1[100005], sum2[100005];
+ll arr[100005];
+long long int query[1000005];
+
+bool cmp(const int a, const int b)
+&#123;
+    return a &gt;  b;
+&#125;
 
 int main()
 &#123;
-    ll t, m, n;
-    cin &gt;&gt; t;
-    for (int k = 1; k &lt;= t; k++)
+    ll n;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++)
+        cin &gt;&gt; arr[i];
+    for (int i = 1; i &lt;= n; i++)
+        sum1[i] += sum1[i - 1] + arr[i];
+    ll m;
+    cin &gt;&gt; m;
+    ll len = 0;
+    ll query_sum = 0;
+    for (int i = 1; i &lt;= m; i++)
     &#123;
-        cin &gt;&gt; n &gt;&gt; m;
-        int ans = 0;
-        priority_queue&lt;ll&gt; q1;
-        priority_queue&lt;ll, vector&lt;ll&gt;, greater&lt;ll&gt; &gt; q2;
-        for (int i = 1; i &lt;= n; i++)
-            cin &gt;&gt; arr[i];
-        if (n == 1)
-        &#123;
-            cout &lt;&lt; 0 &lt;&lt; endl;
-            continue;;
-        &#125;
-
-        sum = 0;
-        // sum(k1 + 1, m) &lt;= 0, k1 &gt;= 1
-        for (int i = m; i &gt;= 2; i--)
-        &#123;
-            q1.push(arr[i]);
-            sum += arr[i];
-            if (sum &gt; 0)
-            &#123;
-                sum -= 2 * abs(q1.top());
-                q1.pop();
-                ans++;
-            &#125; 
-        &#125;
-
-        sum = 0;
-        // sum(m + 1, k2) &lt;= 0, k2 &lt;= n
-        for (int i = m + 1; i &lt;= n; i++)
-        &#123;
-            q2.push(arr[i]);
-            sum += arr[i];
-            if (sum &lt; 0)
-            &#123;
-                sum += 2 * abs(q2.top());
-                q2.pop();
-                ans++;
-            &#125;
-        &#125;
-
-        cout &lt;&lt; ans &lt;&lt; endl;
+        ll L, R;
+        cin &gt;&gt; L &gt;&gt; R;
+        // 查询的区间内，坐标的访问次数 +1
+        query[L] += 1, query[R + 1] -= 1; 
+        query_sum += sum1[R] - sum1[L - 1];
     &#125;
+    for (int i = 1; i &lt;= n + 1; i++)
+        query[i] += query[i - 1];
+    sort(arr + 1, arr + 1 + n, cmp);
+    sort(query + 1, query + 1 + n, cmp);
+    ll query_max = 0;
+    for (int i = 1; query[i] != 0; i++)
+    &#123;
+        query_max += arr[i] * query[i];
+    &#125;
+    cout &lt;&lt; query_max - query_sum &lt;&lt; endl;
+
     system(&quot;pause&quot;);
-    return 0;
 &#125;
 </code></pre>
 

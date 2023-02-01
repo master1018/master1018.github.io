@@ -166,6 +166,133 @@
 
 <div class="post">
 
+    <a href="/2023/02/01/【OJ】重新排序/">
+        <h2>
+            【OJ】重新排序
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+        <span class="category">
+            <a href="/categories/算法题">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" /></span>
+                算法题
+            </a>
+        </span>
+        
+
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/2/1
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            
+            <p><a target="_blank" rel="noopener" href="https://www.lanqiao.cn/problems/2128/learning/">重新排序 - 蓝桥云课 (lanqiao.cn)</a></p>
+<p>该题的关键点：如何获得重新排序的查询区间之和的最大值。</p>
+<p>可以这样进行考虑，我们希望数组中最大的几个数在我们查询的区间中，这样一来，所查询的和就是数组中最大的几个数的和。另外，题目中区间是可以有重叠的，因此我们可以首先统计每个下标的查询次数，然后将数组进行排序，查询次数最大的坐标存放数组中最大的数（以此类推），这样我们求得的和就是最大。</p>
+<p>统计次数用了前缀和和差分进行处理（不知道正常的遍历会不会超时。</p>
+<p>AC代码：</p>
+<pre><code class="lang-c++">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+using namespace std;
+
+typedef unsigned long long int ll;
+
+ll sum1[100005], sum2[100005];
+ll arr[100005];
+long long int query[1000005];
+
+bool cmp(const int a, const int b)
+&#123;
+    return a &gt;  b;
+&#125;
+
+int main()
+&#123;
+    ll n;
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++)
+        cin &gt;&gt; arr[i];
+    for (int i = 1; i &lt;= n; i++)
+        sum1[i] += sum1[i - 1] + arr[i];
+    ll m;
+    cin &gt;&gt; m;
+    ll len = 0;
+    ll query_sum = 0;
+    for (int i = 1; i &lt;= m; i++)
+    &#123;
+        ll L, R;
+        cin &gt;&gt; L &gt;&gt; R;
+        // 查询的区间内，坐标的访问次数 +1
+        query[L] += 1, query[R + 1] -= 1; 
+        query_sum += sum1[R] - sum1[L - 1];
+    &#125;
+    for (int i = 1; i &lt;= n + 1; i++)
+        query[i] += query[i - 1];
+    sort(arr + 1, arr + 1 + n, cmp);
+    sort(query + 1, query + 1 + n, cmp);
+    ll query_max = 0;
+    for (int i = 1; query[i] != 0; i++)
+    &#123;
+        query_max += arr[i] * query[i];
+    &#125;
+    cout &lt;&lt; query_max - query_sum &lt;&lt; endl;
+
+    system(&quot;pause&quot;);
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/前缀和" style=color:#00a596>
+                前缀和
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/蓝桥杯" style=color:#03a9f4>
+                蓝桥杯
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/排序" style=color:#ff7d73>
+                排序
+            </a>
+        </span>
+        
+    </div>
+
+    <a href="/2023/02/01/【OJ】重新排序/ " class="go-post">
+        阅读全文
+    </a>
+</div>
+
+<div class="post">
+
     <a href="/2023/01/27/【OJ】求和/">
         <h2>
             【OJ】求和
@@ -221,7 +348,7 @@
         
         <span class="tag">
             
-            <a href="/tags/前缀和" style=color:#ffa2c4>
+            <a href="/tags/前缀和" style=color:#ff7d73>
                 前缀和
             </a>
         </span>
@@ -292,21 +419,21 @@
         
         <span class="tag">
             
-            <a href="/tags/dp" style=color:#00a596>
+            <a href="/tags/dp" style=color:#00bcd4>
                 dp
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/蓝桥杯" style=color:#00bcd4>
+            <a href="/tags/蓝桥杯" style=color:#00a596>
                 蓝桥杯
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/bfs" style=color:#00a596>
+            <a href="/tags/bfs" style=color:#03a9f4>
                 bfs
             </a>
         </span>
@@ -365,14 +492,14 @@
         
         <span class="tag">
             
-            <a href="/tags/前缀和" style=color:#00bcd4>
+            <a href="/tags/前缀和" style=color:#ff7d73>
                 前缀和
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/csp" style=color:#ffa2c4>
+            <a href="/tags/csp" style=color:#03a9f4>
                 csp
             </a>
         </span>
@@ -431,14 +558,14 @@
         
         <span class="tag">
             
-            <a href="/tags/树" style=color:#00bcd4>
+            <a href="/tags/树" style=color:#ffa2c4>
                 树
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/搜索" style=color:#ffa2c4>
+            <a href="/tags/搜索" style=color:#00bcd4>
                 搜索
             </a>
         </span>
@@ -498,7 +625,7 @@
         
         <span class="tag">
             
-            <a href="/tags/拓扑排序" style=color:#ffa2c4>
+            <a href="/tags/拓扑排序" style=color:#03a9f4>
                 拓扑排序
             </a>
         </span>
@@ -643,7 +770,7 @@
         
         <span class="tag">
             
-            <a href="/tags/数论" style=color:#03a9f4>
+            <a href="/tags/数论" style=color:#00bcd4>
                 数论
             </a>
         </span>

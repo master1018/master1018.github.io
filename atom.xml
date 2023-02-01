@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-01-27T07:28:30.624Z</updated>
+  <updated>2023-02-01T06:09:03.135Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【OJ】重新排序</title>
+    <link href="http://example.com/2023/02/01/%E3%80%90OJ%E3%80%91%E9%87%8D%E6%96%B0%E6%8E%92%E5%BA%8F/"/>
+    <id>http://example.com/2023/02/01/%E3%80%90OJ%E3%80%91%E9%87%8D%E6%96%B0%E6%8E%92%E5%BA%8F/</id>
+    <published>2023-02-01T06:03:45.000Z</published>
+    <updated>2023-02-01T06:09:03.135Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.lanqiao.cn/problems/2128/learning/">重新排序 - 蓝桥云课 (lanqiao.cn)</a></p><p>该题的关键点：如何获得重新排序的查询区间之和的最大值。</p><p>可以这样进行考虑，我们希望数组中最大的几个数在我们查询的区间中，这样一来，所查询的和就是数组中最大的几个数的和。另外，题目中区间是可以有重叠的，因此我们可以首先统计每个下标的查询次数，然后将数组进行排序，查询次数最大的坐标存放数组中最大的数（以此类推），这样我们求得的和就是最大。</p><p>统计次数用了前缀和和差分进行处理（不知道正常的遍历会不会超时。</p><p>AC代码：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;typedef unsigned long long int ll;ll sum1[100005], sum2[100005];ll arr[100005];long long int query[1000005];bool cmp(const int a, const int b)&#123;    return a &gt;  b;&#125;int main()&#123;    ll n;    cin &gt;&gt; n;    for (int i = 1; i &lt;= n; i++)        cin &gt;&gt; arr[i];    for (int i = 1; i &lt;= n; i++)        sum1[i] += sum1[i - 1] + arr[i];    ll m;    cin &gt;&gt; m;    ll len = 0;    ll query_sum = 0;    for (int i = 1; i &lt;= m; i++)    &#123;        ll L, R;        cin &gt;&gt; L &gt;&gt; R;        // 查询的区间内，坐标的访问次数 +1        query[L] += 1, query[R + 1] -= 1;         query_sum += sum1[R] - sum1[L - 1];    &#125;    for (int i = 1; i &lt;= n + 1; i++)        query[i] += query[i - 1];    sort(arr + 1, arr + 1 + n, cmp);    sort(query + 1, query + 1 + n, cmp);    ll query_max = 0;    for (int i = 1; query[i] != 0; i++)    &#123;        query_max += arr[i] * query[i];    &#125;    cout &lt;&lt; query_max - query_sum &lt;&lt; endl;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://www.lanqiao.cn/problems/2128/learning/&quot;&gt;重新排序 - 蓝桥云课 (lanqiao.cn)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;该题的关键点：如何获得重新排序的查询区间之和的最大值。&lt;/p&gt;
+&lt;p&gt;可以这样进行考虑，</summary>
+      
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="前缀和" scheme="http://example.com/tags/%E5%89%8D%E7%BC%80%E5%92%8C/"/>
+    
+    <category term="蓝桥杯" scheme="http://example.com/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/"/>
+    
+    <category term="排序" scheme="http://example.com/tags/%E6%8E%92%E5%BA%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>【OJ】求和</title>
