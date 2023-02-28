@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yhr&#39;s blog || </title>
+    <title>master&#39;s blog || </title>
     <meta name="author" content="Gardevoir">
     <meta name="description" content=" ">
     <meta name="keywords" content=" ">
@@ -16,7 +16,7 @@
     
     <script src="/js/vue.js"></script>
     <script src="/js/antd.min.js"></script>
-<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="yhr's blog" type="application/atom+xml">
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="master's blog" type="application/atom+xml">
 </head>
 
 <body>
@@ -48,7 +48,7 @@
 <nav id="menu">
     <div class="desktop-menu">
         <a href="/">
-            <span class="title">yhr's blog</span>
+            <span class="title">master's blog</span>
         </a>
         
         <a href="/">
@@ -86,7 +86,7 @@
             <span style="margin-right: 10px;">
                 <a-icon type="appstore" theme="filled" />
             </span>
-            <span>yhr's blog</span>
+            <span>master's blog</span>
         </div>
         <div class="items" v-show="menu_show">
             
@@ -147,7 +147,7 @@
         <span class="loop"></span>
         <span class="info">
             <div class="wrap">
-                <h1>yhr's blog</h1>
+                <h1>master's blog</h1>
                 <h3></h3>
                 <h5></h5>
             </div>
@@ -163,6 +163,146 @@
 
         <div id="posts">
             
+
+<div class="post">
+
+    <a href="/2023/02/28/【CSP】训练计划/">
+        <h2>
+            【CSP】训练计划
+        </h2>
+    </a>
+
+    <div class="category-and-date">
+
+        
+        <span class="category">
+            <a href="/categories/算法题">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" /></span>
+                算法题
+            </a>
+        </span>
+        
+
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/2/28
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
+            
+            
+            <p><img src="1.png" alt="1"></p>
+<p>该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了<code>每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己</code>，因此在具体的实现过程中简单很多。</p>
+<p>可以将整个任务网络看成一个树，子结点的最早开始时间依赖于父结点的最早开始时间，因此有：</p>
+<pre><code>early[i] = early[fa[i]] + cost[fa[i]]
+</code></pre><p>对于最晚开始时间，可以参考AOE网中的计算方法，而在该题中则简化了一些。使用一个vector存储每个结点的子结点，那么该结点的最迟开始时间依赖于子结点中最早的最迟开始时间（因为不能影响后续任务的进行）：</p>
+<pre><code>late[i] = min(late[son[i]]) - cost[i]
+</code></pre><p>在这里需要注意的是，最后一个完成的任务（也就是树的叶子结点）在计算时，需要+1，即：</p>
+<pre><code>late[i] = n - cost[i] + 1
+</code></pre><p>AC代码：</p>
+<pre><code class="lang-c++">#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+
+int n, m;
+int depend[1005], cost[1005];
+int early[1005], late[1005];
+vector&lt;int&gt; son[1005];
+int keyPathLen = 0;
+
+int main()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int i = 1; i &lt;= m; i++)
+        cin &gt;&gt; depend[i];
+    for (int i = 1; i &lt;= m; i++)
+        cin &gt;&gt; cost[i];  
+
+    for (int i = 1; i &lt;= m; i++)
+        son[depend[i]].push_back(i);
+
+    int canFinish = 1;
+
+    // 最迟开始时间直接就是父节点的开始时间 + 父节点的消费时间
+    for (int i = 1; i &lt;= m; i++)
+    &#123;
+        // 根据题意，父节点只有一个
+        if (depend[i] == 0)
+            early[i] = 1;
+        else
+            early[i] = early[depend[i]] + cost[depend[i]];
+        if (early[i] + cost[i] - 1 &gt; n)
+            canFinish = 0;
+    &#125;
+
+    //cout &lt;&lt; &quot;keyPathLen: &quot; &lt;&lt; keyPathLen &lt;&lt; endl;
+    for (int i = 1; i &lt;= m; i++)
+        cout &lt;&lt; early[i] &lt;&lt; &quot; &quot;;
+    cout &lt;&lt; endl;
+    // 求最迟时间
+    if (canFinish)
+    &#123;
+        for (int i = m; i &gt;= 1; i--)
+        &#123;
+            // 这里需要+1，具体可以找几个例子
+            if (son[i].size() == 0)
+                late[i] = n - cost[i] + 1;
+            else
+            &#123;
+                // 最晚时间是不影响子节点的开始时间，需要获得子节点中最小的最迟开始时间
+                int minLen = INT_MAX;
+                for (int j = 0; j &lt; son[i].size(); j++)
+                    minLen = min(minLen, late[son[i][j]]);
+                late[i] = minLen - cost[i];
+            &#125;
+        &#125;
+        for (int i = 1; i &lt;= m; i++)
+            cout &lt;&lt; late[i] &lt;&lt; &quot; &quot;;
+        cout &lt;&lt; endl;
+    &#125;
+    system(&quot;pause&quot;);
+&#125;
+</code></pre>
+
+            
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
+            
+            <a href="/tags/前缀和" style=color:#03a9f4>
+                前缀和
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/csp" style=color:#03a9f4>
+                csp
+            </a>
+        </span>
+        
+    </div>
+
+    <a href="/2023/02/28/【CSP】训练计划/ " class="go-post">
+        阅读全文
+    </a>
+</div>
 
 <div class="post">
 
@@ -265,21 +405,21 @@ int main()
         
         <span class="tag">
             
-            <a href="/tags/前缀和" style=color:#00a596>
+            <a href="/tags/前缀和" style=color:#03a9f4>
                 前缀和
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/蓝桥杯" style=color:#03a9f4>
+            <a href="/tags/蓝桥杯" style=color:#00bcd4>
                 蓝桥杯
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/排序" style=color:#ff7d73>
+            <a href="/tags/排序" style=color:#00a596>
                 排序
             </a>
         </span>
@@ -348,7 +488,7 @@ int main()
         
         <span class="tag">
             
-            <a href="/tags/前缀和" style=color:#ff7d73>
+            <a href="/tags/前缀和" style=color:#ffa2c4>
                 前缀和
             </a>
         </span>
@@ -419,21 +559,21 @@ int main()
         
         <span class="tag">
             
-            <a href="/tags/dp" style=color:#00bcd4>
+            <a href="/tags/dp" style=color:#03a9f4>
                 dp
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/蓝桥杯" style=color:#00a596>
+            <a href="/tags/蓝桥杯" style=color:#ffa2c4>
                 蓝桥杯
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/bfs" style=color:#03a9f4>
+            <a href="/tags/bfs" style=color:#ff7d73>
                 bfs
             </a>
         </span>
@@ -492,14 +632,14 @@ int main()
         
         <span class="tag">
             
-            <a href="/tags/前缀和" style=color:#ff7d73>
+            <a href="/tags/前缀和" style=color:#03a9f4>
                 前缀和
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/csp" style=color:#03a9f4>
+            <a href="/tags/csp" style=color:#ff7d73>
                 csp
             </a>
         </span>
@@ -558,14 +698,14 @@ int main()
         
         <span class="tag">
             
-            <a href="/tags/树" style=color:#ffa2c4>
+            <a href="/tags/树" style=color:#00bcd4>
                 树
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/搜索" style=color:#00bcd4>
+            <a href="/tags/搜索" style=color:#ff7d73>
                 搜索
             </a>
         </span>
@@ -625,7 +765,7 @@ int main()
         
         <span class="tag">
             
-            <a href="/tags/拓扑排序" style=color:#03a9f4>
+            <a href="/tags/拓扑排序" style=color:#ffa2c4>
                 拓扑排序
             </a>
         </span>
@@ -763,14 +903,14 @@ int main()
         
         <span class="tag">
             
-            <a href="/tags/dp" style=color:#03a9f4>
+            <a href="/tags/dp" style=color:#00bcd4>
                 dp
             </a>
         </span>
         
         <span class="tag">
             
-            <a href="/tags/数论" style=color:#00bcd4>
+            <a href="/tags/数论" style=color:#ff7d73>
                 数论
             </a>
         </span>
@@ -859,7 +999,7 @@ int main()
 <footer id="footer">
     <div class="footer-wrap">
         <div>
-            © 2018 - 2023 yhr&#39;s blog
+            © 2018 - 2023 master&#39;s blog
             <span class="footer-icon">
                 <a-icon type="flag" theme="filled" /></span>
             @Gardevoir
