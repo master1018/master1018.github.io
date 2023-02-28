@@ -22,4 +22,6 @@ http://example.com/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/
 http://example.com/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/
 http://example.com/tags/bfs/
 http://example.com/tags/%E6%8E%92%E5%BA%8F/
+http://example.com/tags/AOE/
+http://example.com/tags/%E6%95%B0%E7%BB%84/
 http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/

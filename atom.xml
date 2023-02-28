@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-02-28T14:44:17.982Z</updated>
+  <updated>2023-02-28T14:51:06.612Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -21,25 +21,24 @@
     <link href="http://example.com/2023/02/28/%E3%80%90CSP%E3%80%91%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/"/>
     <id>http://example.com/2023/02/28/%E3%80%90CSP%E3%80%91%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/</id>
     <published>2023-02-28T14:18:05.000Z</published>
-    <updated>2023-02-28T14:44:17.982Z</updated>
+    <updated>2023-02-28T14:51:06.612Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="1.png" alt="1"></p><p>该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了<code>每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己</code>，因此在具体的实现过程中简单很多。</p><p>可以将整个任务网络看成一个树，子结点的最早开始时间依赖于父结点的最早开始时间，因此有：</p><pre><code>early[i] = early[fa[i]] + cost[fa[i]]</code></pre><p>对于最晚开始时间，可以参考AOE网中的计算方法，而在该题中则简化了一些。使用一个vector存储每个结点的子结点，那么该结点的最迟开始时间依赖于子结点中最早的最迟开始时间（因为不能影响后续任务的进行）：</p><pre><code>late[i] = min(late[son[i]]) - cost[i]</code></pre><p>在这里需要注意的是，最后一个完成的任务（也就是树的叶子结点）在计算时，需要+1，即：</p><pre><code>late[i] = n - cost[i] + 1</code></pre><p>AC代码：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;cmath&gt;#include &lt;vector&gt;using namespace std;int n, m;int depend[1005], cost[1005];int early[1005], late[1005];vector&lt;int&gt; son[1005];int keyPathLen = 0;int main()&#123;    cin &gt;&gt; n &gt;&gt; m;    for (int i = 1; i &lt;= m; i++)        cin &gt;&gt; depend[i];    for (int i = 1; i &lt;= m; i++)        cin &gt;&gt; cost[i];      for (int i = 1; i &lt;= m; i++)        son[depend[i]].push_back(i);    int canFinish = 1;    // 最迟开始时间直接就是父节点的开始时间 + 父节点的消费时间    for (int i = 1; i &lt;= m; i++)    &#123;        // 根据题意，父节点只有一个        if (depend[i] == 0)            early[i] = 1;        else            early[i] = early[depend[i]] + cost[depend[i]];        if (early[i] + cost[i] - 1 &gt; n)            canFinish = 0;    &#125;    //cout &lt;&lt; &quot;keyPathLen: &quot; &lt;&lt; keyPathLen &lt;&lt; endl;    for (int i = 1; i &lt;= m; i++)        cout &lt;&lt; early[i] &lt;&lt; &quot; &quot;;    cout &lt;&lt; endl;    // 求最迟时间    if (canFinish)    &#123;        for (int i = m; i &gt;= 1; i--)        &#123;            // 这里需要+1，具体可以找几个例子            if (son[i].size() == 0)                late[i] = n - cost[i] + 1;            else            &#123;                // 最晚时间是不影响子节点的开始时间，需要获得子节点中最小的最迟开始时间                int minLen = INT_MAX;                for (int j = 0; j &lt; son[i].size(); j++)                    minLen = min(minLen, late[son[i][j]]);                late[i] = minLen - cost[i];            &#125;        &#125;        for (int i = 1; i &lt;= m; i++)            cout &lt;&lt; late[i] &lt;&lt; &quot; &quot;;        cout &lt;&lt; endl;    &#125;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
+    <content type="html"><![CDATA[<p><img src="1.png" alt="1"></p><p>该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了<code>每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己</code>，因此在具体的实现过程中简单很多。</p><span id="more"></span><p>可以将整个任务网络看成一个树，子结点的最早开始时间依赖于父结点的最早开始时间，因此有：</p><pre><code>early[i] = early[fa[i]] + cost[fa[i]]</code></pre><p>对于最晚开始时间，可以参考AOE网中的计算方法，而在该题中则简化了一些。使用一个vector存储每个结点的子结点，那么该结点的最迟开始时间依赖于子结点中最早的最迟开始时间（因为不能影响后续任务的进行）：</p><pre><code>late[i] = min(late[son[i]]) - cost[i]</code></pre><p>在这里需要注意的是，最后一个完成的任务（也就是树的叶子结点）在计算时，需要+1，即：</p><pre><code>late[i] = n - cost[i] + 1</code></pre><p>AC代码：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;cmath&gt;#include &lt;vector&gt;using namespace std;int n, m;int depend[1005], cost[1005];int early[1005], late[1005];vector&lt;int&gt; son[1005];int keyPathLen = 0;int main()&#123;    cin &gt;&gt; n &gt;&gt; m;    for (int i = 1; i &lt;= m; i++)        cin &gt;&gt; depend[i];    for (int i = 1; i &lt;= m; i++)        cin &gt;&gt; cost[i];      for (int i = 1; i &lt;= m; i++)        son[depend[i]].push_back(i);    int canFinish = 1;    // 最迟开始时间直接就是父节点的开始时间 + 父节点的消费时间    for (int i = 1; i &lt;= m; i++)    &#123;        // 根据题意，父节点只有一个        if (depend[i] == 0)            early[i] = 1;        else            early[i] = early[depend[i]] + cost[depend[i]];        if (early[i] + cost[i] - 1 &gt; n)            canFinish = 0;    &#125;    //cout &lt;&lt; &quot;keyPathLen: &quot; &lt;&lt; keyPathLen &lt;&lt; endl;    for (int i = 1; i &lt;= m; i++)        cout &lt;&lt; early[i] &lt;&lt; &quot; &quot;;    cout &lt;&lt; endl;    // 求最迟时间    if (canFinish)    &#123;        for (int i = m; i &gt;= 1; i--)        &#123;            // 这里需要+1，具体可以找几个例子            if (son[i].size() == 0)                late[i] = n - cost[i] + 1;            else            &#123;                // 最晚时间是不影响子节点的开始时间，需要获得子节点中最小的最迟开始时间                int minLen = INT_MAX;                for (int j = 0; j &lt; son[i].size(); j++)                    minLen = min(minLen, late[son[i][j]]);                late[i] = minLen - cost[i];            &#125;        &#125;        for (int i = 1; i &lt;= m; i++)            cout &lt;&lt; late[i] &lt;&lt; &quot; &quot;;        cout &lt;&lt; endl;    &#125;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
     
     
-      
-      
     <summary type="html">&lt;p&gt;&lt;img src=&quot;1.png&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
-&lt;p&gt;该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了&lt;code&gt;每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己&lt;/code&gt;，因此在具体的实现过程中简单很多。&lt;/</summary>
-      
+&lt;p&gt;该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了&lt;code&gt;每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己&lt;/code&gt;，因此在具体的实现过程中简单很多。&lt;/p&gt;</summary>
     
     
     
     <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
     
     
-    <category term="前缀和" scheme="http://example.com/tags/%E5%89%8D%E7%BC%80%E5%92%8C/"/>
-    
     <category term="csp" scheme="http://example.com/tags/csp/"/>
+    
+    <category term="AOE" scheme="http://example.com/tags/AOE/"/>
+    
+    <category term="数组" scheme="http://example.com/tags/%E6%95%B0%E7%BB%84/"/>
     
   </entry>
   

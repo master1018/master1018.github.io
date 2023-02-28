@@ -168,15 +168,22 @@
             
             <span class="tag">
                 
-                <a href="/tags/前缀和" style=color:#ffa2c4>
-                    前缀和
+                <a href="/tags/csp" style=color:#ff7d73>
+                    csp
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/csp" style=color:#00bcd4>
-                    csp
+                <a href="/tags/AOE" style=color:#00a596>
+                    AOE
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/数组" style=color:#00bcd4>
+                    数组
                 </a>
             </span>
             
@@ -187,6 +194,7 @@
     <div class="content" v-pre>
         <p><img src="1.png" alt="1"></p>
 <p>该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了<code>每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己</code>，因此在具体的实现过程中简单很多。</p>
+<span id="more"></span>
 <p>可以将整个任务网络看成一个树，子结点的最早开始时间依赖于父结点的最早开始时间，因此有：</p>
 <pre><code>early[i] = early[fa[i]] + cost[fa[i]]
 </code></pre><p>对于最晚开始时间，可以参考AOE网中的计算方法，而在该题中则简化了一些。使用一个vector存储每个结点的子结点，那么该结点的最迟开始时间依赖于子结点中最早的最迟开始时间（因为不能影响后续任务的进行）：</p>
