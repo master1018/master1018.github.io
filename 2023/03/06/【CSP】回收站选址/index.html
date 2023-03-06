@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>master&#39;s blog || 【OJ】Balance Ac</title>
+    <title>master&#39;s blog || 【CSP】回收站选址</title>
     <meta name="author" content="Gardevoir">
     <meta name="description" content=" ">
     <meta name="keywords" content=" ">
@@ -138,14 +138,14 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>【OJ】Balance Ac </h1>
+        <h1>【CSP】回收站选址 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2023/1/17
+            2023/3/6
         </span>
 
         
@@ -168,15 +168,22 @@
             
             <span class="tag">
                 
-                <a href="/tags/树" style=color:#00a596>
-                    树
+                <a href="/tags/csp" style=color:#00a596>
+                    csp
                 </a>
             </span>
             
             <span class="tag">
                 
-                <a href="/tags/搜索" style=color:#00bcd4>
-                    搜索
+                <a href="/tags/排序" style=color:#00bcd4>
+                    排序
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/模拟" style=color:#ffa2c4>
+                    模拟
                 </a>
             </span>
             
@@ -185,90 +192,123 @@
     </div>
 
     <div class="content" v-pre>
-        <h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><span id="more"></span>
-<p><img src="1.png" alt="1"></p>
-<p>题目所指示的实际上就是求树的重心。</p>
-<p>以下摘自oi-wiki：</p>
-<pre><code>定义
-对于树上的每一个点，计算其所有子树中最大的子树节点数，这个值最小的点就是这棵树的重心。
-（这里以及下文中的“子树”都是指无根树的子树，即包括“向上”的那棵子树，并且不包括整棵树自身。）
-
-性质
-以树的重心为根时，所有子树的大小都不超过整棵树大小的一半。
-树中所有点到某个点的距离和中，到重心的距离和是最小的；如果有两个重心，那么到它们的距离和一样。
-把两棵树通过一条边相连得到一棵新的树，那么新的树的重心在连接原来两棵树的重心的路径上。
-在一棵树上添加或删除一个叶子，那么它的重心最多只移动一条边的距离。
-</code></pre><p>但其实这题的思路就是用搜索去求每个结点的balance，然后依次遍历，输出balance最小的结点。（感觉遇到图的题，总觉得直接搜索会超时。。。）。</p>
-<p>定义数据结构Tree如下：</p>
-<pre><code class="lang-c++">struct  Tree
-&#123;
-    int balance;
-    vector&lt;int&gt; next;
+        <p><img src="http://118.190.20.162/RequireFile.do?fid=yHN5fhQA" alt="1"></p>
+<p><img src="http://118.190.20.162/RequireFile.do?fid=3dmhBQRd" alt="2"></p>
+<p><img src="http://118.190.20.162/RequireFile.do?fid=y326RMAM" alt="3"></p>
+<span id="more"></span>
+<p>该题目由于设定了坐标x和y的最大值为1e9，因此不能直接将坐标作为数组的下标。</p>
+<p>考虑到n最大为1000，O(n^2)的算法足够解决问题，因此用结构体数组存储每个坐标，然后对于数组进行排序（按x的升序，如果x坐标相同则按y坐标的升序）。</p>
+<p>从样例1中的图来看，我们可以遍历每一列（同一列中x坐标相同），将该列与相邻的两列进行比较，从而得到那些可以设定垃圾站的点，为方便遍历可以用如下所示的结构体进行处理：</p>
+<pre><code class="lang-c++">struct COL&#123;
+    ll begin;  // 每一列的第一个数据在输入数组中的坐标
+    ll len;    // 列的长度
 &#125;;
 </code></pre>
-<p>在dfs过程中，我们需要计算的数据有子树的结点数tmp，最大字数的结点数size，所有子树的结点数之和sum以及题目要求的balance。</p>
-<p>tmp的计算通过dfs进行更新，size则取最大的tmp值，以及sum，这些参数通过遍历即可计算。而balance的计算，通过比较size和N - sum - 1；之所以这样计算，是因为在dfs的过程中，我们初始已经假设某个点作为根节点，因此获得的子树的结点个数都是遍历当前结点的子节点来获取的，但其实如果把当前结点看作根节点的话，其父节点向上的所有结点也是一个子树，而其结点个数正是N - sum - 1。以题目中图为例，如果2作为根节点，则计算1的balance时，不仅需要遍历1的子树，还需要遍历1的父节点2和6构成的子树。</p>
-<p>最后完整代码如下：</p>
+<p>在程序的主体部分，我们只遍历x坐标相邻的三列数据，然后再对于每列数据进行分别遍历。</p>
+<p>以样例1为例，遍历中间一列，从第2个数据开始，即（1,1），先检查（1,1）上下两个坐标点是在其附近；然后，对于左右两列，从第一个数据遍历，找到y坐标等于（1，1）点的坐标，如果能找到则满足条件。最后，对于满足条件的点，检查其四顶角是否有垃圾。当然，这些遍历的实现是建立在我们已经排好序的情况下。</p>
+<p>具体代码如下：</p>
 <pre><code class="lang-c++">#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
 
-#include &lt;vector&gt;
 using namespace std;
 
-int visit[20005];
-int n;
-struct  Tree
+typedef long long int ll;
+
+ll n;
+struct POS
 &#123;
-    int balance;
-    vector&lt;int&gt; next;
+    ll x;
+    ll y;
 &#125;;
 
-int dfs(Tree *tree, int x)
-&#123;
-    if (visit[x]) return 0;
-    else
-    &#123;
-        visit[x] = 1;
-        int size = 0;
-        int sum = 0;
-        for (int i = 0; i &lt; tree[x].next.size(); i++)
-        &#123;
-            int tmp = dfs(tree, (tree[x].next)[i]); // 子树的结点个数
-            sum += tmp;
-            size = max(size, tmp); // 最大子树的结点个数
-        &#125;
-        tree[x].balance = max(size, n - sum - 1); // 计算balance
-        visit[x] = 0;
-        return sum + 1; 
-    &#125;
-&#125;
+POS pos[1005];
 
+struct COL&#123;
+    ll begin;
+    ll len;
+&#125;;
+
+COL col[1005];
+ll nCol = 1;
+
+bool cmp(const POS &amp;a, const POS &amp;b)
+&#123;
+    if (a.x != b.x)
+        return a.x &lt; b.x;
+    else
+        return a.y &lt; b.y;
+&#125;
+ll ans[5] = &#123;0&#125;;
 int main()
 &#123;
-    int t;
-    cin &gt;&gt; t;
-    while (t--)
+    cin &gt;&gt; n;
+    for (int i = 1; i &lt;= n; i++)
     &#123;
-        cin &gt;&gt; n;
-        Tree *tree = new Tree[n + 1];
-        for (int i = 1; i &lt;= n; i++)
-            visit[i] = 0;
-        for (int i = 1; i &lt;= n - 1; i++)
-        &#123;
-            int a, b;
-            cin &gt;&gt; a &gt;&gt; b;
-            tree[a].next.push_back(b);
-            tree[b].next.push_back(a);
-            tree[a].balance = tree[b].balance = 0;
-        &#125;
-        dfs(tree, 6);
-        int ans1, ans2;
-        ans1 = ans2 = 1e8;
-        for (int i = 1; i &lt;= n; i++)
-            if (ans2 &gt; tree[i].balance)
-                ans1 = i, ans2 = tree[i].balance;
-        cout &lt;&lt; ans1 &lt;&lt; &quot; &quot; &lt;&lt; ans2 &lt;&lt; endl;
-        delete []tree;
+        cin &gt;&gt; pos[i].x &gt;&gt; pos[i].y;
     &#125;
+    sort(pos + 1, pos + 1 + n,  cmp);
+    col[nCol].begin = 1;
+    for (int i = 2; ; )
+    &#123;
+        while (i &lt;= n &amp;&amp; pos[i].x == pos[i - 1].x)
+        &#123;
+            i++;
+        &#125;
+        col[nCol].len = i - col[nCol].begin;
+        if (i &gt; n) break;
+        nCol++;
+        col[nCol].begin = i++;
+    &#125;
+    if (nCol &lt; 3)
+    &#123;
+        for (int i = 1; i &lt;= 5; i++)
+            cout &lt;&lt; 0 &lt;&lt; endl;
+        system(&quot;pause&quot;);
+        return 0;
+    &#125;
+    // i1, i2, i3是针对每一列而言的偏移量，需要将其转换到pos中的实际下标
+    for (int i = 1; i + 2 &lt;= nCol; i++)
+    &#123;
+        // 如果列不相邻，直接跳过
+        if (pos[col[i].begin].x + 1 != pos[col[i + 1].begin].x || pos[col[i + 1].begin].x + 1 != pos[col[i + 2].begin].x) continue;
+        int i1, i3;
+        i1 = i3 = 1;
+        for (int i2 = 2; i2 &lt;= col[i + 1].len - 1 &amp;&amp; i1 &lt;= col[i].len &amp;&amp; i3 &lt;= col[i + 2].len; i2++)
+        &#123;
+            int j2 = i2 + col[i + 1].begin - 1;
+            // 上下存在垃圾
+            if (pos[j2 - 1].y + 1 != pos[j2].y || pos[j2].y + 1 != pos[j2 + 1].y) continue;
+            while (i1 &lt;= col[i].len &amp;&amp; pos[i1 + col[i].begin - 1].y &lt; pos[j2].y)
+            &#123;
+                i1++;
+            &#125;
+            // 左存在垃圾
+            if (i1 &lt;= col[i].len &amp;&amp; pos[i1 + col[i].begin - 1].y == pos[j2].y)
+            &#123;
+                while (i3 &lt;= col[i + 2].len &amp;&amp; pos[i3 + col[i + 2].begin - 1].y &lt; pos[j2].y)
+                &#123;
+                    i3++;
+                &#125;
+                // 右存在垃圾
+                if (i3 &lt;= col[i + 2].len &amp;&amp; pos[i3 + col[i + 2].begin - 1].y == pos[j2].y)
+                &#123;
+                    // 检查四个角落是否有垃圾
+                    int tmpAns = 0;
+                    int j1 = i1 + col[i].begin - 1;
+                    int j3 = i3 + col[i + 2].begin - 1;
+                    if (pos[j1].y == pos[j1 - 1].y + 1) tmpAns++;
+                    if (pos[j3].y == pos[j3 - 1].y + 1) tmpAns++;
+                    if (i1 + 1 &lt;= col[i].len &amp;&amp; pos[j1].y + 1 == pos[j1 + 1].y) tmpAns++;
+                    if (i3 + 1 &lt;= col[i + 2].len &amp;&amp; pos[j3].y + 1 == pos[j3 + 1].y) tmpAns++;
+                    ans[tmpAns]++; 
+                &#125;     
+            &#125;
+
+        &#125;
+    &#125;
+    for (int i = 0; i &lt; 5; i++)
+        cout &lt;&lt; ans[i] &lt;&lt; endl;
+
     system(&quot;pause&quot;);
 &#125;
 </code></pre>

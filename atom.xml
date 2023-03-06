@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-02-28T14:51:06.612Z</updated>
+  <updated>2023-03-06T13:25:33.892Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【CSP】回收站选址</title>
+    <link href="http://example.com/2023/03/06/%E3%80%90CSP%E3%80%91%E5%9B%9E%E6%94%B6%E7%AB%99%E9%80%89%E5%9D%80/"/>
+    <id>http://example.com/2023/03/06/%E3%80%90CSP%E3%80%91%E5%9B%9E%E6%94%B6%E7%AB%99%E9%80%89%E5%9D%80/</id>
+    <published>2023-03-06T13:05:13.000Z</published>
+    <updated>2023-03-06T13:25:33.892Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="http://118.190.20.162/RequireFile.do?fid=yHN5fhQA" alt="1"></p><p><img src="http://118.190.20.162/RequireFile.do?fid=3dmhBQRd" alt="2"></p><p><img src="http://118.190.20.162/RequireFile.do?fid=y326RMAM" alt="3"></p><span id="more"></span><p>该题目由于设定了坐标x和y的最大值为1e9，因此不能直接将坐标作为数组的下标。</p><p>考虑到n最大为1000，O(n^2)的算法足够解决问题，因此用结构体数组存储每个坐标，然后对于数组进行排序（按x的升序，如果x坐标相同则按y坐标的升序）。</p><p>从样例1中的图来看，我们可以遍历每一列（同一列中x坐标相同），将该列与相邻的两列进行比较，从而得到那些可以设定垃圾站的点，为方便遍历可以用如下所示的结构体进行处理：</p><pre><code class="lang-c++">struct COL&#123;    ll begin;  // 每一列的第一个数据在输入数组中的坐标    ll len;    // 列的长度&#125;;</code></pre><p>在程序的主体部分，我们只遍历x坐标相邻的三列数据，然后再对于每列数据进行分别遍历。</p><p>以样例1为例，遍历中间一列，从第2个数据开始，即（1,1），先检查（1,1）上下两个坐标点是在其附近；然后，对于左右两列，从第一个数据遍历，找到y坐标等于（1，1）点的坐标，如果能找到则满足条件。最后，对于满足条件的点，检查其四顶角是否有垃圾。当然，这些遍历的实现是建立在我们已经排好序的情况下。</p><p>具体代码如下：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;typedef long long int ll;ll n;struct POS&#123;    ll x;    ll y;&#125;;POS pos[1005];struct COL&#123;    ll begin;    ll len;&#125;;COL col[1005];ll nCol = 1;bool cmp(const POS &amp;a, const POS &amp;b)&#123;    if (a.x != b.x)        return a.x &lt; b.x;    else        return a.y &lt; b.y;&#125;ll ans[5] = &#123;0&#125;;int main()&#123;    cin &gt;&gt; n;    for (int i = 1; i &lt;= n; i++)    &#123;        cin &gt;&gt; pos[i].x &gt;&gt; pos[i].y;    &#125;    sort(pos + 1, pos + 1 + n,  cmp);    col[nCol].begin = 1;    for (int i = 2; ; )    &#123;        while (i &lt;= n &amp;&amp; pos[i].x == pos[i - 1].x)        &#123;            i++;        &#125;        col[nCol].len = i - col[nCol].begin;        if (i &gt; n) break;        nCol++;        col[nCol].begin = i++;    &#125;    if (nCol &lt; 3)    &#123;        for (int i = 1; i &lt;= 5; i++)            cout &lt;&lt; 0 &lt;&lt; endl;        system(&quot;pause&quot;);        return 0;    &#125;    // i1, i2, i3是针对每一列而言的偏移量，需要将其转换到pos中的实际下标    for (int i = 1; i + 2 &lt;= nCol; i++)    &#123;        // 如果列不相邻，直接跳过        if (pos[col[i].begin].x + 1 != pos[col[i + 1].begin].x || pos[col[i + 1].begin].x + 1 != pos[col[i + 2].begin].x) continue;        int i1, i3;        i1 = i3 = 1;        for (int i2 = 2; i2 &lt;= col[i + 1].len - 1 &amp;&amp; i1 &lt;= col[i].len &amp;&amp; i3 &lt;= col[i + 2].len; i2++)        &#123;            int j2 = i2 + col[i + 1].begin - 1;            // 上下存在垃圾            if (pos[j2 - 1].y + 1 != pos[j2].y || pos[j2].y + 1 != pos[j2 + 1].y) continue;            while (i1 &lt;= col[i].len &amp;&amp; pos[i1 + col[i].begin - 1].y &lt; pos[j2].y)            &#123;                i1++;            &#125;            // 左存在垃圾            if (i1 &lt;= col[i].len &amp;&amp; pos[i1 + col[i].begin - 1].y == pos[j2].y)            &#123;                while (i3 &lt;= col[i + 2].len &amp;&amp; pos[i3 + col[i + 2].begin - 1].y &lt; pos[j2].y)                &#123;                    i3++;                &#125;                // 右存在垃圾                if (i3 &lt;= col[i + 2].len &amp;&amp; pos[i3 + col[i + 2].begin - 1].y == pos[j2].y)                &#123;                    // 检查四个角落是否有垃圾                    int tmpAns = 0;                    int j1 = i1 + col[i].begin - 1;                    int j3 = i3 + col[i + 2].begin - 1;                    if (pos[j1].y == pos[j1 - 1].y + 1) tmpAns++;                    if (pos[j3].y == pos[j3 - 1].y + 1) tmpAns++;                    if (i1 + 1 &lt;= col[i].len &amp;&amp; pos[j1].y + 1 == pos[j1 + 1].y) tmpAns++;                    if (i3 + 1 &lt;= col[i + 2].len &amp;&amp; pos[j3].y + 1 == pos[j3 + 1].y) tmpAns++;                    ans[tmpAns]++;                 &#125;                 &#125;        &#125;    &#125;    for (int i = 0; i &lt; 5; i++)        cout &lt;&lt; ans[i] &lt;&lt; endl;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;http://118.190.20.162/RequireFile.do?fid=yHN5fhQA&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://118.190.20.162/RequireFile.do?fid=3dmhBQRd&quot; alt=&quot;2&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://118.190.20.162/RequireFile.do?fid=y326RMAM&quot; alt=&quot;3&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="csp" scheme="http://example.com/tags/csp/"/>
+    
+    <category term="排序" scheme="http://example.com/tags/%E6%8E%92%E5%BA%8F/"/>
+    
+    <category term="模拟" scheme="http://example.com/tags/%E6%A8%A1%E6%8B%9F/"/>
+    
+  </entry>
   
   <entry>
     <title>【CSP】训练计划</title>
