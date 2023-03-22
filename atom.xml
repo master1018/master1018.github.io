@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>master&#39;s blog</title>
+  
+  
+  <link href="http://example.com/atom.xml" rel="self"/>
+  
+  <link href="http://example.com/"/>
+  <updated>2023-02-28T14:51:06.612Z</updated>
+  <id>http://example.com/</id>
+  
+  <author>
+    <name>Gardevoir</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【CSP】训练计划</title>
+    <link href="http://example.com/2023/02/28/%E3%80%90CSP%E3%80%91%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/"/>
+    <id>http://example.com/2023/02/28/%E3%80%90CSP%E3%80%91%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/</id>
+    <published>2023-02-28T14:18:05.000Z</published>
+    <updated>2023-02-28T14:51:06.612Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="1.png" alt="1"></p><p>该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了<code>每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己</code>，因此在具体的实现过程中简单很多。</p><span id="more"></span><p>可以将整个任务网络看成一个树，子结点的最早开始时间依赖于父结点的最早开始时间，因此有：</p><pre><code>early[i] = early[fa[i]] + cost[fa[i]]</code></pre><p>对于最晚开始时间，可以参考AOE网中的计算方法，而在该题中则简化了一些。使用一个vector存储每个结点的子结点，那么该结点的最迟开始时间依赖于子结点中最早的最迟开始时间（因为不能影响后续任务的进行）：</p><pre><code>late[i] = min(late[son[i]]) - cost[i]</code></pre><p>在这里需要注意的是，最后一个完成的任务（也就是树的叶子结点）在计算时，需要+1，即：</p><pre><code>late[i] = n - cost[i] + 1</code></pre><p>AC代码：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;cmath&gt;#include &lt;vector&gt;using namespace std;int n, m;int depend[1005], cost[1005];int early[1005], late[1005];vector&lt;int&gt; son[1005];int keyPathLen = 0;int main()&#123;    cin &gt;&gt; n &gt;&gt; m;    for (int i = 1; i &lt;= m; i++)        cin &gt;&gt; depend[i];    for (int i = 1; i &lt;= m; i++)        cin &gt;&gt; cost[i];      for (int i = 1; i &lt;= m; i++)        son[depend[i]].push_back(i);    int canFinish = 1;    // 最迟开始时间直接就是父节点的开始时间 + 父节点的消费时间    for (int i = 1; i &lt;= m; i++)    &#123;        // 根据题意，父节点只有一个        if (depend[i] == 0)            early[i] = 1;        else            early[i] = early[depend[i]] + cost[depend[i]];        if (early[i] + cost[i] - 1 &gt; n)            canFinish = 0;    &#125;    //cout &lt;&lt; &quot;keyPathLen: &quot; &lt;&lt; keyPathLen &lt;&lt; endl;    for (int i = 1; i &lt;= m; i++)        cout &lt;&lt; early[i] &lt;&lt; &quot; &quot;;    cout &lt;&lt; endl;    // 求最迟时间    if (canFinish)    &#123;        for (int i = m; i &gt;= 1; i--)        &#123;            // 这里需要+1，具体可以找几个例子            if (son[i].size() == 0)                late[i] = n - cost[i] + 1;            else            &#123;                // 最晚时间是不影响子节点的开始时间，需要获得子节点中最小的最迟开始时间                int minLen = INT_MAX;                for (int j = 0; j &lt; son[i].size(); j++)                    minLen = min(minLen, late[son[i][j]]);                late[i] = minLen - cost[i];            &#125;        &#125;        for (int i = 1; i &lt;= m; i++)            cout &lt;&lt; late[i] &lt;&lt; &quot; &quot;;        cout &lt;&lt; endl;    &#125;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;1.png&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
+&lt;p&gt;该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了&lt;code&gt;每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己&lt;/code&gt;，因此在具体的实现过程中简单很多。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="csp" scheme="http://example.com/tags/csp/"/>
+    
+    <category term="AOE" scheme="http://example.com/tags/AOE/"/>
+    
+    <category term="数组" scheme="http://example.com/tags/%E6%95%B0%E7%BB%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【OJ】重新排序</title>
+    <link href="http://example.com/2023/02/01/%E3%80%90OJ%E3%80%91%E9%87%8D%E6%96%B0%E6%8E%92%E5%BA%8F/"/>
+    <id>http://example.com/2023/02/01/%E3%80%90OJ%E3%80%91%E9%87%8D%E6%96%B0%E6%8E%92%E5%BA%8F/</id>
+    <published>2023-02-01T06:03:45.000Z</published>
+    <updated>2023-02-01T06:09:03.135Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://www.lanqiao.cn/problems/2128/learning/">重新排序 - 蓝桥云课 (lanqiao.cn)</a></p><p>该题的关键点：如何获得重新排序的查询区间之和的最大值。</p><p>可以这样进行考虑，我们希望数组中最大的几个数在我们查询的区间中，这样一来，所查询的和就是数组中最大的几个数的和。另外，题目中区间是可以有重叠的，因此我们可以首先统计每个下标的查询次数，然后将数组进行排序，查询次数最大的坐标存放数组中最大的数（以此类推），这样我们求得的和就是最大。</p><p>统计次数用了前缀和和差分进行处理（不知道正常的遍历会不会超时。</p><p>AC代码：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;typedef unsigned long long int ll;ll sum1[100005], sum2[100005];ll arr[100005];long long int query[1000005];bool cmp(const int a, const int b)&#123;    return a &gt;  b;&#125;int main()&#123;    ll n;    cin &gt;&gt; n;    for (int i = 1; i &lt;= n; i++)        cin &gt;&gt; arr[i];    for (int i = 1; i &lt;= n; i++)        sum1[i] += sum1[i - 1] + arr[i];    ll m;    cin &gt;&gt; m;    ll len = 0;    ll query_sum = 0;    for (int i = 1; i &lt;= m; i++)    &#123;        ll L, R;        cin &gt;&gt; L &gt;&gt; R;        // 查询的区间内，坐标的访问次数 +1        query[L] += 1, query[R + 1] -= 1;         query_sum += sum1[R] - sum1[L - 1];    &#125;    for (int i = 1; i &lt;= n + 1; i++)        query[i] += query[i - 1];    sort(arr + 1, arr + 1 + n, cmp);    sort(query + 1, query + 1 + n, cmp);    ll query_max = 0;    for (int i = 1; query[i] != 0; i++)    &#123;        query_max += arr[i] * query[i];    &#125;    cout &lt;&lt; query_max - query_sum &lt;&lt; endl;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://www.lanqiao.cn/problems/2128/learning/&quot;&gt;重新排序 - 蓝桥云课 (lanqiao.cn)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;该题的关键点：如何获得重新排序的查询区间之和的最大值。&lt;/p&gt;
+&lt;p&gt;可以这样进行考虑，</summary>
+      
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="前缀和" scheme="http://example.com/tags/%E5%89%8D%E7%BC%80%E5%92%8C/"/>
+    
+    <category term="蓝桥杯" scheme="http://example.com/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/"/>
+    
+    <category term="排序" scheme="http://example.com/tags/%E6%8E%92%E5%BA%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【OJ】求和</title>
+    <link href="http://example.com/2023/01/27/%E3%80%90OJ%E3%80%91%E6%B1%82%E5%92%8C/"/>
+    <id>http://example.com/2023/01/27/%E3%80%90OJ%E3%80%91%E6%B1%82%E5%92%8C/</id>
+    <published>2023-01-27T07:18:29.000Z</published>
+    <updated>2023-01-27T07:28:30.624Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目来源：<a href="https://www.luogu.com.cn/problem/P2671">P2671 [NOIP2015 普及组] 求和 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></p><p>题目中给定三元组（x，y，z），可以发现y根本没有什么作用，只要（x + z）/ 2是一个整数就行了。那么我们所求的三元组就是同奇偶的x和z。</p><p>在计算之前，先进性排序处理，首先将相同color的数放在一起，然后对于相同color的数据，将其按照奇偶进行分开，因此需要自定义cmp函数：</p><pre><code class="lang-c++">bool cmp(const Node &amp;a, const Node &amp;b)&#123;    if (a.col != b.col)        return a.col &lt; b.col;    else        return a.idx % 2 &lt; b.idx % 2;&#125;</code></pre><span id="more"></span><p>排好序后，就可以用双指针，遍历x和z，将符合条件的数进行计算，但这样做最终只能过8个检测点（O2优化可过9个），因此要想全部AC需要继续优化算法，很显然，计算方式是优化的一个地方。</p><p>考虑以下式子：</p><pre><code>n = 1ans = f1 * a1n = 2ans = (f1 + f2) * (a1 + a2)n = 3ans = (f1 + f2) * (a1 + a2) + (f1 + f3) * (a1 + a3) + (f2 + f3) * (a2 + a3)    = (f1 + f2 + f3) * (a1 + a2 + a3) + f1 * a1 + f2 * a2 + f3 * f3n = 4ans = (f1 + f2 + f3 + f4) * (a1 + a2 + a3 + a4) + 2 * (f1 * a1 + f2 * a2 + f3 * a3 + f4 * a4)</code></pre><p>于是可以得到计算的通式：</p><pre><code>ans(n) = sum_f(n) * sum_a(n) + (n - 2) * sum_fa(n)</code></pre><p>因此我们可以转换为前缀和的形式来进行计算，可以大大降低时间复杂度，代码如下：</p><pre><code class="lang-c++">//#pragma GCC optimize(2)#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;typedef unsigned long long int ll;#define N (10007)ll n, m;struct Node&#123;    ll idx;    ll num;    ll col;&#125;;ll sumf[100005], suma[100005], sumfa[100005];Node arr[100005];int read() &#123;    int x=0,f=1;    char c=getchar();    while(c&lt;&#39;0&#39;||c&gt;&#39;9&#39;)&#123;if(c==&#39;-&#39;) f=-1;c=getchar();&#125;    while(c&gt;=&#39;0&#39;&amp;&amp;c&lt;=&#39;9&#39;) x=x*10+c-&#39;0&#39;,c=getchar();    return x*f;&#125;void write(int x) &#123;     if(x&lt;0) putchar(&#39;-&#39;),x=-x;     if(x&gt;9) write(x/10);     putchar(x%10+&#39;0&#39;);&#125;bool cmp(const Node &amp;a, const Node &amp;b)&#123;    if (a.col != b.col)        return a.col &lt; b.col;    else        return a.idx % 2 &lt; b.idx % 2;&#125;int main()&#123;    cin &gt;&gt; n &gt;&gt; m;    for (ll i = 1; i &lt;= n; i++)        arr[i].num = read();    for (ll i = 1; i &lt;= n; i++)        arr[i].col = read();    for (ll i = 1; i &lt;= n; i++)        arr[i].idx = i;    sort(arr + 1, arr + n + 1, cmp);    sumf[0] = suma[0] = sumfa[0] = 0;    sumf[1] = arr[1].num, suma[1] = arr[1].idx, sumfa[1] = arr[1].idx * arr[1].num;     for (int i = 2; i &lt;= n; i++)        sumf[i] = sumf[i - 1] + arr[i].num, suma[i] = suma[i - 1] + arr[i].idx, sumfa[i] += sumfa[i - 1] + arr[i].idx * arr[i].num;      ll ans = 0;    //for (int i = 1; i &lt;= n; i++)      //  cout &lt;&lt; arr[i].idx &lt;&lt; &quot; &quot; &lt;&lt; arr[i].col &lt;&lt; &quot; &quot; &lt;&lt; arr[i].num &lt;&lt; endl;    for (ll i = 1; i &lt;= n; )    &#123;        int j = i + 1;        while (j &lt;= n &amp;&amp; arr[j].col == arr[i].col &amp;&amp; !((arr[j].idx + arr[i].idx) % 2)) j++;        j--;        if (j &gt; i)            ans += (sumf[j] - sumf[i - 1]) * (suma[j] - suma[i - 1]) + (j - i - 1) * (sumfa[j] - sumfa[i - 1]) % N;        i = j + 1;    &#125;    cout &lt;&lt; ans % N &lt;&lt; endl;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;题目来源：&lt;a href=&quot;https://www.luogu.com.cn/problem/P2671&quot;&gt;P2671 [NOIP2015 普及组] 求和 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;题目中给定三元组（x，y，z），可以发现y根本没有什么作用，只要（x + z）/ 2是一个整数就行了。那么我们所求的三元组就是同奇偶的x和z。&lt;/p&gt;
+&lt;p&gt;在计算之前，先进性排序处理，首先将相同color的数放在一起，然后对于相同color的数据，将其按照奇偶进行分开，因此需要自定义cmp函数：&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-c++&quot;&gt;bool cmp(const Node &amp;amp;a, const Node &amp;amp;b)
+&amp;#123;
+    if (a.col != b.col)
+        return a.col &amp;lt; b.col;
+    else
+        return a.idx % 2 &amp;lt; b.idx % 2;
+&amp;#125;
+&lt;/code&gt;&lt;/pre&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="前缀和" scheme="http://example.com/tags/%E5%89%8D%E7%BC%80%E5%92%8C/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【OJ】迷宫</title>
+    <link href="http://example.com/2023/01/24/%E3%80%90OJ%E3%80%91%E8%BF%B7%E5%AE%AB/"/>
+    <id>http://example.com/2023/01/24/%E3%80%90OJ%E3%80%91%E8%BF%B7%E5%AE%AB/</id>
+    <published>2023-01-24T14:17:03.000Z</published>
+    <updated>2023-01-24T14:31:57.755Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>这天, 小明在玩迷宫游戏。</p><p>迷宫为一个 n<em>×</em>n 的网格图, 小明可以在格子中移动, 左上角为 (1,1), 右 下角 (<em>n</em>,<em>n</em>) 为终点。迷宫中除了可以向上下左右四个方向移动一格以外, 还有 m* 个双向传送门可以使用, 传送门可以连接两个任意格子。</p><p>假如小明处在格子 (<em>x</em>1,<em>y</em>1), 同时有一个传送门连接了格子(<em>x</em>1,<em>y</em>1) 和 (<em>x</em>2,<em>y</em>2), 那么小明既可以花费 1 的步数向上下左右四个方向之一走一格 (不能 越过边界), 也可以花费 1 的步数通过传送门走到格子(<em>x</em>2,<em>y</em>2) 去。</p><p>而对于同一个迷宫, 小明每次进入的初始格子是在这 n<em>×</em>n* 个格子中均匀随 机的 (当然运气好可以直接随机到终点), 他想知道从初始格子走到终点的最短 步数的期望值是多少。</p><h3 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h3><p>输入共 1+m 行, 第一行为两个正整数 n<em>,</em>m*。</p><p>后面 m<em> 行, 每行四个正整数 x**i</em>1,<em>y**i</em>1,<em>x**i</em>2,<em>y**i</em>2 表示第 i* 个传送门连接的两个格子坐标。</p><h3 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h3><p>输出共一行, 一个浮点数表示答案 (请保留两位小数)。</p><h3 id="样例输入"><a href="#样例输入" class="headerlink" title="样例输入"></a>样例输入</h3><pre><code class="lang-text">2 11 1 2 2</code></pre><h3 id="样例输出"><a href="#样例输出" class="headerlink" title="样例输出"></a>样例输出</h3><pre><code class="lang-text">0.75</code></pre><h3 id="样例解释"><a href="#样例解释" class="headerlink" title="样例解释"></a>样例解释</h3><p>由于传送门的存在, 从 (1,1) 出发到终点 (2,2)(2,2) 只需要一步; 而从(1,2) 和 (2,1) 出发也只需要向下/右走一步; 从 (2,2) 出发需要 0 步。所以步数期望为 1+1+1+02×2=0.752×21+1+1+0=0.75</p><span id="more"></span><p>该题可以很显然的看出来是个动态规划的题，类似的题目有<code>过河卒</code>、<code>马的遍历</code>。我们正着做这题的话，显然不太好弄，所以需要反向遍历这个迷宫，将问题转换为求(n, n)到其他所有点的最短距离，而关于一个图中最短距离的求解，采用BFS最佳，那么该题的思路就可以出来了：</p><ul><li>反向bfs迷宫，并在搜索过程中，更新（n，n）点到每个点的最短距离</li><li>对于每个点，不仅需要遍历其四个方向的点，还需要遍历有传送门的情况下的令一个点</li></ul><p>另外，该题需要注意的是，传送门是双向的，可以从（x1，y1）到（x2，y2），反过来也可以从（x2，y2）到（x1，y1），否则会非常容易20个测试点全寄。。。</p><p>另外在遍历每个点时，首先用一个数组vis判断该点是否已经遍历过了，如果vis为1，直接跳过该点。</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;cstdio&gt;#include &lt;queue&gt;#include &lt;utility&gt;#include &lt;vector&gt;using namespace std;int f[2005][2005];int vis[2005][2005];int n, m;queue&lt;pair&lt;int, int&gt; &gt; q;vector&lt;pair&lt;int, int&gt; &gt; v[2005][2005];bool check(int x, int y)&#123;    return x &gt;= 1 &amp;&amp; x &lt;= n &amp;&amp; y &gt;= 1 &amp;&amp; y &lt;= n &amp;&amp; !vis[x][y]; &#125;void bfs()&#123;    while (!q.empty())    &#123;        int x, y;        x = q.front().first;        y = q.front().second;        q.pop();        // 如果该点已经遍历过，直接跳过        if (vis[x][y]) continue;        vis[x][y] = 1;        if (check(x, y - 1)) f[x][y - 1] = min(f[x][y - 1], 1 + f[x][y]), q.push(make_pair(x, y - 1));        if (check(x - 1, y)) f[x - 1][y] = min(f[x - 1][y], 1 + f[x][y]), q.push(make_pair(x - 1, y));        if (check(x, y + 1)) f[x][y + 1] = min(f[x][y + 1], 1 + f[x][y]), q.push(make_pair(x, y + 1));        if (check(x + 1, y)) f[x + 1][y] = min(f[x + 1][y], 1 + f[x][y]), q.push(make_pair(x + 1, y));        if (v[x][y].size())        &#123;            for (int i = 0; i &lt; v[x][y].size(); i++)            &#123;                int x1 = v[x][y][i].first;                int y1 = v[x][y][i].second;                if (check(x1, y1)) f[x1][y1] = min(f[x1][y1], 1 + f[x][y]), q.push(make_pair(x1, y1));            &#125;        &#125;    &#125;&#125;int main()&#123;    cin &gt;&gt; n &gt;&gt; m;    for (int i = 1; i &lt;= m; i++)    &#123;        int x1, x2, y1, y2;        cin &gt;&gt; x1 &gt;&gt; y1 &gt;&gt; x2 &gt;&gt; y2;        v[x2][y2].push_back(make_pair(x1, y1));        v[x1][y1].push_back(make_pair(x2, y2));    &#125;    for (int i = 1; i &lt;= n; i++)        for (int j = 1; j &lt;= n; j++)            f[i][j] = 2 * n - i - j;    q.push(make_pair(n, n));    bfs();    int res = 0;    for (int i = 1; i &lt;= n; i++)        for (int j = 1; j &lt;= n; j++)            res += f[i][j];    printf(&quot;%.2f\n&quot;, (float)(res * 1.0 / (n * n)));    system(&quot;pause&quot;);    return 0;&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h3 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h3&gt;&lt;p&gt;这天, 小明在玩迷宫游戏。&lt;/p&gt;
+&lt;p&gt;迷宫为一个 n&lt;em&gt;×&lt;/em&gt;n 的网格图, 小明可以在格子中移动, 左上角为 (1,1), 右 下角 (&lt;em&gt;n&lt;/em&gt;,&lt;em&gt;n&lt;/em&gt;) 为终点。迷宫中除了可以向上下左右四个方向移动一格以外, 还有 m* 个双向传送门可以使用, 传送门可以连接两个任意格子。&lt;/p&gt;
+&lt;p&gt;假如小明处在格子 (&lt;em&gt;x&lt;/em&gt;1,&lt;em&gt;y&lt;/em&gt;1), 同时有一个传送门连接了格子(&lt;em&gt;x&lt;/em&gt;1,&lt;em&gt;y&lt;/em&gt;1) 和 (&lt;em&gt;x&lt;/em&gt;2,&lt;em&gt;y&lt;/em&gt;2), 那么小明既可以花费 1 的步数向上下左右四个方向之一走一格 (不能 越过边界), 也可以花费 1 的步数通过传送门走到格子(&lt;em&gt;x&lt;/em&gt;2,&lt;em&gt;y&lt;/em&gt;2) 去。&lt;/p&gt;
+&lt;p&gt;而对于同一个迷宫, 小明每次进入的初始格子是在这 n&lt;em&gt;×&lt;/em&gt;n* 个格子中均匀随 机的 (当然运气好可以直接随机到终点), 他想知道从初始格子走到终点的最短 步数的期望值是多少。&lt;/p&gt;
+&lt;h3 id=&quot;输入格式&quot;&gt;&lt;a href=&quot;#输入格式&quot; class=&quot;headerlink&quot; title=&quot;输入格式&quot;&gt;&lt;/a&gt;输入格式&lt;/h3&gt;&lt;p&gt;输入共 1+m 行, 第一行为两个正整数 n&lt;em&gt;,&lt;/em&gt;m*。&lt;/p&gt;
+&lt;p&gt;后面 m&lt;em&gt; 行, 每行四个正整数 x**i&lt;/em&gt;1,&lt;em&gt;y**i&lt;/em&gt;1,&lt;em&gt;x**i&lt;/em&gt;2,&lt;em&gt;y**i&lt;/em&gt;2 表示第 i* 个传送门连接的两个格子坐标。&lt;/p&gt;
+&lt;h3 id=&quot;输出格式&quot;&gt;&lt;a href=&quot;#输出格式&quot; class=&quot;headerlink&quot; title=&quot;输出格式&quot;&gt;&lt;/a&gt;输出格式&lt;/h3&gt;&lt;p&gt;输出共一行, 一个浮点数表示答案 (请保留两位小数)。&lt;/p&gt;
+&lt;h3 id=&quot;样例输入&quot;&gt;&lt;a href=&quot;#样例输入&quot; class=&quot;headerlink&quot; title=&quot;样例输入&quot;&gt;&lt;/a&gt;样例输入&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;lang-text&quot;&gt;2 1
+1 1 2 2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;样例输出&quot;&gt;&lt;a href=&quot;#样例输出&quot; class=&quot;headerlink&quot; title=&quot;样例输出&quot;&gt;&lt;/a&gt;样例输出&lt;/h3&gt;&lt;pre&gt;&lt;code class=&quot;lang-text&quot;&gt;0.75
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;样例解释&quot;&gt;&lt;a href=&quot;#样例解释&quot; class=&quot;headerlink&quot; title=&quot;样例解释&quot;&gt;&lt;/a&gt;样例解释&lt;/h3&gt;&lt;p&gt;由于传送门的存在, 从 (1,1) 出发到终点 (2,2)(2,2) 只需要一步; 而从(1,2) 和 (2,1) 出发也只需要向下/右走一步; 从 (2,2) 出发需要 0 步。所以步数期望为 1+1+1+02×2=0.752×21+1+1+0=0.75&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="dp" scheme="http://example.com/tags/dp/"/>
+    
+    <category term="蓝桥杯" scheme="http://example.com/tags/%E8%93%9D%E6%A1%A5%E6%9D%AF/"/>
+    
+    <category term="bfs" scheme="http://example.com/tags/bfs/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【CSP】期末预测之最佳阈值</title>
+    <link href="http://example.com/2023/01/19/%E3%80%90CSP%E3%80%91%E6%9C%9F%E6%9C%AB%E9%A2%84%E6%B5%8B%E4%B9%8B%E6%9C%80%E4%BD%B3%E9%98%88%E5%80%BC/"/>
+    <id>http://example.com/2023/01/19/%E3%80%90CSP%E3%80%91%E6%9C%9F%E6%9C%AB%E9%A2%84%E6%B5%8B%E4%B9%8B%E6%9C%80%E4%BD%B3%E9%98%88%E5%80%BC/</id>
+    <published>2023-01-19T11:47:09.000Z</published>
+    <updated>2023-01-19T12:08:44.127Z</updated>
+    
+    <content type="html"><![CDATA[<p>题目来源：csp 202012-2</p><span id="more"></span><p><img src="1.png" alt="1"></p><h2 id="样例1输入"><a href="#样例1输入" class="headerlink" title="样例1输入"></a>样例1输入</h2><pre><code class="lang-data">60 01 01 13 15 17 1</code></pre><h2 id="样例1输出"><a href="#样例1输出" class="headerlink" title="样例1输出"></a>样例1输出</h2><pre><code class="lang-data">3</code></pre><p>对于输入的数据，并没有说第一个数是按照升序排列的，因此我们需要先进行一个排序，按照输出的一行数中第一个数的大小（y的值）进行排序。</p><h2 id="70分做法"><a href="#70分做法" class="headerlink" title="70分做法"></a>70分做法</h2><p>两个for循环，分别假设每个y为阈值的情况下，获得的准确度是多少，代码比较好写，就不进行演示了。</p><h2 id="100分做法"><a href="#100分做法" class="headerlink" title="100分做法"></a>100分做法</h2><p>首先进行思考，什么样的阈值才能满足准确度最大？换而言之，设置一个阈值y，是不是小于y的同学，如果他的result是0的话就不用变，也就是正确的预测值，如果大于1就会发生变化，则预测失败。而题目中我们只需要知道这个阈值y到底能预测对多少个同学，也就是多少个同学的result值不用发生变化。那么很简便的一个方法，就是统计小于y的同学中有多少result为1的，<code>大于等于</code>这个y的，有多少result为0的。</p><p>统计的方式有很多，例如可以设置一个全局的sum变量或者开辟数组，这里就用到了前缀和的一个思想。为了避免参数之间混乱，还是开数组比较清晰，用f1[i]记录y小于i的同学中result为1的个数，f0[i]为y小于i的同学中，result为0的个数，如果所有的同学中，result为0的同学共有sum0个，那么预测的准确次数可以由下式表示：</p><pre><code>right_times = n - (f1[i] + sum0 - f0[i])</code></pre><p><del>那么剩下的就是大模拟了罢。</del></p><p>我们以样例1为例，算法的过程如下：</p><pre><code>sum0 = 2, n = 6y     result    f0    f1    sum0 - f0    right_times0     0        0    0    2            41     0        1    0    1            51     1        1    0    1            53     1        2    1    0            55     1        2    2    0            47     1        2    3    0            3</code></pre><p>那么最终答案就是3。我们在遍历排好序的时候，只需维护上面的一些变量就行了，但这题其实还有一个麻烦的点，就是y值相同的数据可能有多个，不过这里我们可以用双指针来处理（感觉csp第二题挺喜欢这种数据的）。</p><p>AC代码如下：</p><pre><code class="lang-C++">#include &lt;iostream&gt;#include &lt;algorithm&gt;using namespace std;struct Node&#123;    int y;    int res;&#125;;Node in[100005];int sum0 = 0; // 记录0的个数int sum1 = 0;int f0[100005], f1[100005]; bool cmp(const struct Node &amp;a, const struct Node &amp;b)&#123;    return a.y &lt; b.y;&#125;int main()&#123;    int n;    cin &gt;&gt; n;    for (int i = 1; i &lt;= n; i++)    &#123;        cin &gt;&gt; in[i].y &gt;&gt; in[i].res;        if (!in[i].res) sum0++;    &#125;    sum1 = n - sum0;    sort(in + 1, in + n + 1, cmp);    int i = 1;    int ans = 0;    int max_right = 0;    int num1, num0;    num0 = num1 = 0;    while (i &lt;= n &amp;&amp; in[1].y != in[i].y)    &#123;        if (in[i].res) num1++;        else num0++;        i++;    &#125;    f0[i - 1] = f1[i - 1] = 0;    // 实际上对于多个相同的y值的同学，只需更新头和尾，用于和其他数据交互就行了    while (i &lt;= n)    &#123;        int p = i - 1; // 保存前一个y        f0[i] = f0[p] + num0, f1[i] = f1[p] + num1; // 先用前一个同学的num0和num1去更新f数组        num0 = num1 = 0;  // 因为这里要重新初始化，所以上一步才需立即进行处理        while (i &lt;= n &amp;&amp; in[p + 1].y == in[i].y)        &#123;            if (in[i].res) num1++; // 统计当前y值下的所有同学中result为1的个数            else num0++;    // 统计当前y值下的所有同学中result为0的个数            i++;        &#125;        f0[i - 1] = f0[p + 1], f1[i - 1] = f1[p + 1];  // y值的最后一个同学进行更新        int right = n - (f1[i - 1] + sum0 - f0[i - 1]);        if (right &gt;= max_right)        &#123;            max_right = right;            ans = in[i - 1].y;        &#125;    &#125;    cout &lt;&lt; ans &lt;&lt; endl;&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;题目来源：csp 202012-2&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="前缀和" scheme="http://example.com/tags/%E5%89%8D%E7%BC%80%E5%92%8C/"/>
+    
+    <category term="csp" scheme="http://example.com/tags/csp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【OJ】Balance Ac</title>
+    <link href="http://example.com/2023/01/17/%E3%80%90OJ%E3%80%91Balance-Ac/"/>
+    <id>http://example.com/2023/01/17/%E3%80%90OJ%E3%80%91Balance-Ac/</id>
+    <published>2023-01-17T13:08:40.000Z</published>
+    <updated>2023-01-17T13:25:06.860Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h1><span id="more"></span><p><img src="1.png" alt="1"></p><p>题目所指示的实际上就是求树的重心。</p><p>以下摘自oi-wiki：</p><pre><code>定义对于树上的每一个点，计算其所有子树中最大的子树节点数，这个值最小的点就是这棵树的重心。（这里以及下文中的“子树”都是指无根树的子树，即包括“向上”的那棵子树，并且不包括整棵树自身。）性质以树的重心为根时，所有子树的大小都不超过整棵树大小的一半。树中所有点到某个点的距离和中，到重心的距离和是最小的；如果有两个重心，那么到它们的距离和一样。把两棵树通过一条边相连得到一棵新的树，那么新的树的重心在连接原来两棵树的重心的路径上。在一棵树上添加或删除一个叶子，那么它的重心最多只移动一条边的距离。</code></pre><p>但其实这题的思路就是用搜索去求每个结点的balance，然后依次遍历，输出balance最小的结点。（感觉遇到图的题，总觉得直接搜索会超时。。。）。</p><p>定义数据结构Tree如下：</p><pre><code class="lang-c++">struct  Tree&#123;    int balance;    vector&lt;int&gt; next;&#125;;</code></pre><p>在dfs过程中，我们需要计算的数据有子树的结点数tmp，最大字数的结点数size，所有子树的结点数之和sum以及题目要求的balance。</p><p>tmp的计算通过dfs进行更新，size则取最大的tmp值，以及sum，这些参数通过遍历即可计算。而balance的计算，通过比较size和N - sum - 1；之所以这样计算，是因为在dfs的过程中，我们初始已经假设某个点作为根节点，因此获得的子树的结点个数都是遍历当前结点的子节点来获取的，但其实如果把当前结点看作根节点的话，其父节点向上的所有结点也是一个子树，而其结点个数正是N - sum - 1。以题目中图为例，如果2作为根节点，则计算1的balance时，不仅需要遍历1的子树，还需要遍历1的父节点2和6构成的子树。</p><p>最后完整代码如下：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;vector&gt;using namespace std;int visit[20005];int n;struct  Tree&#123;    int balance;    vector&lt;int&gt; next;&#125;;int dfs(Tree *tree, int x)&#123;    if (visit[x]) return 0;    else    &#123;        visit[x] = 1;        int size = 0;        int sum = 0;        for (int i = 0; i &lt; tree[x].next.size(); i++)        &#123;            int tmp = dfs(tree, (tree[x].next)[i]); // 子树的结点个数            sum += tmp;            size = max(size, tmp); // 最大子树的结点个数        &#125;        tree[x].balance = max(size, n - sum - 1); // 计算balance        visit[x] = 0;        return sum + 1;     &#125;&#125;int main()&#123;    int t;    cin &gt;&gt; t;    while (t--)    &#123;        cin &gt;&gt; n;        Tree *tree = new Tree[n + 1];        for (int i = 1; i &lt;= n; i++)            visit[i] = 0;        for (int i = 1; i &lt;= n - 1; i++)        &#123;            int a, b;            cin &gt;&gt; a &gt;&gt; b;            tree[a].next.push_back(b);            tree[b].next.push_back(a);            tree[a].balance = tree[b].balance = 0;        &#125;        dfs(tree, 6);        int ans1, ans2;        ans1 = ans2 = 1e8;        for (int i = 1; i &lt;= n; i++)            if (ans2 &gt; tree[i].balance)                ans1 = i, ans2 = tree[i].balance;        cout &lt;&lt; ans1 &lt;&lt; &quot; &quot; &lt;&lt; ans2 &lt;&lt; endl;        delete []tree;    &#125;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;题目描述&quot;&gt;&lt;a href=&quot;#题目描述&quot; class=&quot;headerlink&quot; title=&quot;题目描述&quot;&gt;&lt;/a&gt;题目描述&lt;/h1&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="树" scheme="http://example.com/tags/%E6%A0%91/"/>
+    
+    <category term="搜索" scheme="http://example.com/tags/%E6%90%9C%E7%B4%A2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【OJ】车站分级</title>
+    <link href="http://example.com/2023/01/17/%E3%80%90OJ%E3%80%91%E8%BD%A6%E7%AB%99%E5%88%86%E7%BA%A7/"/>
+    <id>http://example.com/2023/01/17/%E3%80%90OJ%E3%80%91%E8%BD%A6%E7%AB%99%E5%88%86%E7%BA%A7/</id>
+    <published>2023-01-17T12:08:05.000Z</published>
+    <updated>2023-01-17T12:36:21.160Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>原题链接</strong></p><p><a href="https://www.luogu.com.cn/problem/P1983">P1983 [NOIP2013 普及组] 车站分级 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></p><span id="more"></span><p><img src="1.png" alt="1"></p><h2 id="输入输出样例"><a href="#输入输出样例" class="headerlink" title="输入输出样例"></a>输入输出样例</h2><p><strong>输入 #1</strong>复制</p><pre><code>9 2 4 1 3 5 6 3 3 5 6</code></pre><p><strong>输出 #1</strong>复制</p><pre><code>2</code></pre><p><strong>输入 #2</strong>复制</p><pre><code>9 3 4 1 3 5 6 3 3 5 6 3 1 5 9</code></pre><p><strong>输出 #2</strong>复制</p><pre><code>3</code></pre><p>题目中关键点：</p><pre><code>如果这趟车次停靠了火车站x，则始发站、终点站之间所有级别大于等于火车站x的都必须停靠</code></pre><p>以样例1来说，第一趟火车停在了1，3，5，6，则站点2、4的级别均小于1、3、5、6；第二趟车停在了3、5、6，则4的级别小于3、5、6。那么我们可以得到这样的级别关系：</p><pre><code>&#123;2, 4&#125; &lt; &#123;1, 3, 5, 6&#125;&#123;4&#125; &lt; &#123;3, 5, 6&#125;</code></pre><p>只知道2、4分别和1、3、5、6的关系，但不知道2和4的具体关系，以及1、3、5、6的关系，这种类型的排序正是拓扑排序，因此这道题显而易见的要使用到拓扑排序。</p><p>但是知道拓扑排序很简单，但重要的是怎么从拓扑排序中获得这些车站的级别关系。根据题目要求，我们最终要获得拓扑排序的最长链才行，以此来设计的车站级别个数才会最少。</p><p>在这里采用一个动态规划的思路，以下图为例：</p><p><img src="2.webp" alt="2"></p><p>设f(i)为从<code>入度为0</code>的结点到i结点的最长距离（经过的结点个数最多），那么在拓扑排序的中途，我们用f数组维护这样一个长度最大值。比如上图中，方位结点1后，去放分结点2和4（即2、4入队列），然后更新f(2)和f(4)为1。接着访问结点2指向的结点，会访问到结点4，此时有f(4) = max(f(4), f(2) + 1)，最终结果是更新f(4)为2，相关的代码部分如下：</p><pre><code class="lang-c++">for (int j = 0; j &lt; g[x].size(); j++)&#123;    // 删去x -&gt; t这条边    int t = g[x][j];     f[t] = max(f[t], f[x] + 1);  // 更新到达结点t所经过的最长的路径    du[t]--;    if (!du[t]) q.push(t);&#125;</code></pre><p>找到最长的路径后，路径的长度 + 1即为最终的答案（+1细品）。</p><p>完整代码如下：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;cstring&gt;#include &lt;cstdlib&gt;#include &lt;vector&gt;#include &lt;queue&gt;using namespace std;int f[1005] = &#123;0&#125;;vector&lt;int&gt; g[1005];  // 邻接表int du[1005], n, m, L[1005];int visti[1005][1005] = &#123;&#123;0&#125;&#125;; // visit用于判重，否则会MLEbool toposort()&#123;    memset(du, 0, sizeof(du));    for (int i = 0; i &lt; n; i++)        for (int j = 0; j &lt; g[i].size(); j++)            du[g[i][j]]++;    int tot = 0;    queue&lt;int&gt; q;    for (int i = 1; i &lt;= n; i++)        if (!du[i]) q.push(i), f[i] = 0;    while (!q.empty())    &#123;        int x = q.front(); q.pop();        L[tot++] = x;         for (int j = 0; j &lt; g[x].size(); j++)        &#123;            // 删去x -&gt; t这条边            int t = g[x][j];             f[t] = max(f[t], f[x] + 1);            du[t]--;            if (!du[t]) q.push(t);        &#125;    &#125;    if (tot == n) return 1;    return 0;&#125;int main()&#123;    cin &gt;&gt; n &gt;&gt; m;    for (int k = 1; k &lt;= m; k++)    &#123;        int s;        cin &gt;&gt; s;        int a[1005] = &#123;0&#125;;        int pos[1005] = &#123;0&#125;;        for (int i = 1; i &lt;= s; i++)            cin &gt;&gt; a[i], pos[a[i]] = 1;        for (int i = a[1]; i &lt;= a[s]; i++)            if (!pos[i])                 for (int j = a[1]; j &lt;= a[s]; j++)                    if (pos[j] &amp;&amp; !visti[i][j]) g[i].push_back(j), visti[i][j] = 1;    &#125;    toposort();    int ans = 0;    for (int i = 1; i &lt;= n; i++)        ans = max(ans, f[i]);    cout &lt;&lt; ans + 1 &lt;&lt; endl;    //system(&quot;pause&quot;);&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;strong&gt;原题链接&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.luogu.com.cn/problem/P1983&quot;&gt;P1983 [NOIP2013 普及组] 车站分级 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)&lt;/a&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="拓扑排序" scheme="http://example.com/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【OJ】Least Prefix Sum</title>
+    <link href="http://example.com/2023/01/15/%E3%80%90OJ%E3%80%91Least-Prefix-Sum/"/>
+    <id>http://example.com/2023/01/15/%E3%80%90OJ%E3%80%91Least-Prefix-Sum/</id>
+    <published>2023-01-15T15:18:28.000Z</published>
+    <updated>2023-01-15T15:59:01.128Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://codeforces.com/problemset/problem/1779/C">Problem - 1779C - Codeforces</a></p><p><img src="1.png" alt="1"></p><span id="more"></span><p>该题大概的意思是，通过将数组中的元素取反，使得给定一个m，其前缀和a1 + a2 + … + am的值在该数组的所有前缀和中最小。</p><p>对于前缀和的问题，写出表达式会比较明显，设i的前缀和为sum[i] = a[1] + a[2] + a[3] + … + a[i]。根据题意可知最终操作后m需满足，sum[m] &lt;= sum[k]，1 &lt;= k &lt;= n。 </p><p>首先对于k &lt;= m的情况，有sum[m] &lt;= sum[k] —&gt; sum[m] - sum[k] &lt;= 0；</p><p>同理对于k &gt; m的情况，有sum[k] - sum[m] &gt;= 0。</p><p>因此我们的取反操作需要满足以上两个条件，这里采用了一个贪心的思维，以k &lt;= m的情况为例，要令sum[m] - sum[k] &lt;= 0，我们肯定希望sum[k]越大越好，在取反操作时，为节省次数，一定是希望选取a[1]到a[k]中最小的负数，让其取反，这样sum[k]就相对会变得更大。为寻找这样一个最小的负数，可以使用优先队列来节省时间，那么这部分的代码可以写成：</p><pre><code class="lang-c++">priority_queue&lt;ll&gt; q1;// sum(k1 + 1, m) &lt;= 0, k1 &gt;= 1for (int i = m; i &gt;= 2; i--)&#123;    q1.push(arr[i]);    sum += arr[i];    if (sum &gt; 0) // 这里要维持sum(k1 + 1, m) &lt;= 0的条件    &#123;        sum -= 2 * abs(q1.top());        q1.pop();        ans++;    &#125; &#125;</code></pre><p>在这里，我们需要倒叙遍历i，其实也就是sum(k1 + 1, m)的长度不断的递增（为什么这样做，感觉就是潜意识就这样想了。。。）。</p><p>同样对于k &gt; m的操作，顺序遍历i，然后保持每一个sum大于0就行了。</p><p>AC代码如下：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;queue&gt;#include &lt;cmath&gt;using namespace std;typedef long long int ll;ll arr[200005] = &#123;0&#125;;ll sum = 0;int main()&#123;    ll t, m, n;    cin &gt;&gt; t;    for (int k = 1; k &lt;= t; k++)    &#123;        cin &gt;&gt; n &gt;&gt; m;        int ans = 0;        priority_queue&lt;ll&gt; q1;        priority_queue&lt;ll, vector&lt;ll&gt;, greater&lt;ll&gt; &gt; q2;        for (int i = 1; i &lt;= n; i++)            cin &gt;&gt; arr[i];        if (n == 1)        &#123;            cout &lt;&lt; 0 &lt;&lt; endl;            continue;;        &#125;        sum = 0;        // sum(k1 + 1, m) &lt;= 0, k1 &gt;= 1        for (int i = m; i &gt;= 2; i--)        &#123;            q1.push(arr[i]);            sum += arr[i];            if (sum &gt; 0)            &#123;                sum -= 2 * abs(q1.top());                q1.pop();                ans++;            &#125;         &#125;        sum = 0;        // sum(m + 1, k2) &lt;= 0, k2 &lt;= n        for (int i = m + 1; i &lt;= n; i++)        &#123;            q2.push(arr[i]);            sum += arr[i];            if (sum &lt; 0)            &#123;                sum += 2 * abs(q2.top());                q2.pop();                ans++;            &#125;        &#125;        cout &lt;&lt; ans &lt;&lt; endl;    &#125;    system(&quot;pause&quot;);    return 0;&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://codeforces.com/problemset/problem/1779/C&quot;&gt;Problem - 1779C - Codeforces&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;1.png&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="前缀和" scheme="http://example.com/tags/%E5%89%8D%E7%BC%80%E5%92%8C/"/>
+    
+    <category term="优先队列" scheme="http://example.com/tags/%E4%BC%98%E5%85%88%E9%98%9F%E5%88%97/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【OJ】计算系数</title>
+    <link href="http://example.com/2023/01/14/%E3%80%90OJ%E3%80%91%E8%AE%A1%E7%AE%97%E7%B3%BB%E6%95%B0/"/>
+    <id>http://example.com/2023/01/14/%E3%80%90OJ%E3%80%91%E8%AE%A1%E7%AE%97%E7%B3%BB%E6%95%B0/</id>
+    <published>2023-01-14T15:33:10.000Z</published>
+    <updated>2023-01-15T15:59:03.038Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><h1 id="NOIP2011-提高组-计算系数"><a href="#NOIP2011-提高组-计算系数" class="headerlink" title="[NOIP2011 提高组] 计算系数"></a>[NOIP2011 提高组] 计算系数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个多项式 $(by+ax)^k$，请求出多项式展开后 $x^n\times y^m$ 项的系数。</p><h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>输入共一行，包含 $5$ 个整数，分别为 $a,b,k,n,m$，每两个整数之间用一个空格隔开。</p><h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出共一行，包含一个整数，表示所求的系数。</p><p>这个系数可能很大，输出对 $10007$ 取模后的结果。</p><h2 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h2><h3 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h3><pre><code>1 1 3 1 2</code></pre><h3 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><pre><code>3</code></pre><h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>【数据范围】</p><p>对于 $30\%$ 的数据，有 $ 0\le k\le 10$。</p><p>对于 $50\%$ 的数据，有 $ a=1$，$b=1$。</p><p>对于 $100\%$ 的数据，有 $0\le k\le 1000$，$0\le n,m\le k$，$n+m=k$，$0\le a,b\le 10^6$。</p><p>noip2011 提高组 day2 第 1 题。</p></blockquote><span id="more"></span><p>第一眼思路：Cnm排列组合+快速模幂，然而太天真了。。。</p><p>如果用Cnm的话，会牵扯到除法的模幂运算，然后又是逆元一些乱七八槽的玩意（不过有老哥貌似能推出来其他的计算公式）。</p><p>既然Cnm走不通，那就去<del>百度</del>思考其他的方法。先考虑a和b均为1的形式：</p><pre><code>(x + y)^1 = x + y(x + y)^2 = x^2 + 2xy + y^2(x + 3)^3 = x^3 + 3xy^2 + 3x^2y + y^3</code></pre><p>这样看可能不太明显，换一种表达方式 </p><pre><code>1 11 2 11 3 3 1</code></pre><p>似乎是杨辉三角。。。根据初中的知识，杨辉三角是和二项式定理紧密相关的。</p><p><img src="1.png" alt="1"></p><p>那么事情就好办很多，直接dp，设杨辉三角的二维数组表达形式为<code>f(i, j)</code>，那么最终答案的表达式应该是：</p><p>ans = f(i, j) <em> a^n </em> b^m，最终代码如下：</p><pre><code class="lang-c++">#include &lt;iostream&gt;using namespace std;#define MOD (10007)typedef unsigned long long int ll;ll f[1005][1005] = &#123;&#123;0&#125;&#125;;ll a, b, k, n, m;void fun()&#123;    f[1][1] = 1;    for (ll i = 2; i &lt;= 1001; i++)    &#123;        f[i][1] = f[i][i] = 1;        for (ll j = 2; j &lt;= i - 1; j++)            f[i][j] = (f[i - 1][j - 1] + f[i - 1][j]) % MOD;     &#125;&#125;ll quick_pow(ll x, ll y)&#123;    ll ans = 1;    while (y)    &#123;        if (y &amp; 1)            ans = ans * x % MOD;        x = (x * x) % MOD;        y &gt;&gt;= 1;    &#125;    return ans;&#125;int main()&#123;    fun();    cin &gt;&gt; a &gt;&gt; b &gt;&gt; k &gt;&gt; n &gt;&gt; m;    // x^n X y^m    cout &lt;&lt; (f[k + 1][m + 1] * (quick_pow(a, n) * quick_pow(b, m) % MOD)) % MOD &lt;&lt; endl;&#125;</code></pre>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;h1 id=&quot;NOIP2011-提高组-计算系数&quot;&gt;&lt;a href=&quot;#NOIP2011-提高组-计算系数&quot; class=&quot;headerlink&quot; title=&quot;[NOIP2011 提高组] 计算系数&quot;&gt;&lt;/a&gt;[NOIP2011 提高组] 计算系数&lt;/h1&gt;&lt;h2 id=&quot;题目描述&quot;&gt;&lt;a href=&quot;#题目描述&quot; class=&quot;headerlink&quot; title=&quot;题目描述&quot;&gt;&lt;/a&gt;题目描述&lt;/h2&gt;&lt;p&gt;给定一个多项式 $(by+ax)^k$，请求出多项式展开后 $x^n\times y^m$ 项的系数。&lt;/p&gt;
+&lt;h2 id=&quot;输入格式&quot;&gt;&lt;a href=&quot;#输入格式&quot; class=&quot;headerlink&quot; title=&quot;输入格式&quot;&gt;&lt;/a&gt;输入格式&lt;/h2&gt;&lt;p&gt;输入共一行，包含 $5$ 个整数，分别为 $a,b,k,n,m$，每两个整数之间用一个空格隔开。&lt;/p&gt;
+&lt;h2 id=&quot;输出格式&quot;&gt;&lt;a href=&quot;#输出格式&quot; class=&quot;headerlink&quot; title=&quot;输出格式&quot;&gt;&lt;/a&gt;输出格式&lt;/h2&gt;&lt;p&gt;输出共一行，包含一个整数，表示所求的系数。&lt;/p&gt;
+&lt;p&gt;这个系数可能很大，输出对 $10007$ 取模后的结果。&lt;/p&gt;
+&lt;h2 id=&quot;样例-1&quot;&gt;&lt;a href=&quot;#样例-1&quot; class=&quot;headerlink&quot; title=&quot;样例 #1&quot;&gt;&lt;/a&gt;样例 #1&lt;/h2&gt;&lt;h3 id=&quot;样例输入-1&quot;&gt;&lt;a href=&quot;#样例输入-1&quot; class=&quot;headerlink&quot; title=&quot;样例输入 #1&quot;&gt;&lt;/a&gt;样例输入 #1&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;1 1 3 1 2
+&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;样例输出-1&quot;&gt;&lt;a href=&quot;#样例输出-1&quot; class=&quot;headerlink&quot; title=&quot;样例输出 #1&quot;&gt;&lt;/a&gt;样例输出 #1&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;3
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;提示&quot;&gt;&lt;a href=&quot;#提示&quot; class=&quot;headerlink&quot; title=&quot;提示&quot;&gt;&lt;/a&gt;提示&lt;/h2&gt;&lt;p&gt;【数据范围】&lt;/p&gt;
+&lt;p&gt;对于 $30\%$ 的数据，有 $ 0\le k\le 10$。&lt;/p&gt;
+&lt;p&gt;对于 $50\%$ 的数据，有 $ a=1$，$b=1$。&lt;/p&gt;
+&lt;p&gt;对于 $100\%$ 的数据，有 $0\le k\le 1000$，$0\le n,m\le k$，$n+m=k$，$0\le a,b\le 10^6$。&lt;/p&gt;
+&lt;p&gt;noip2011 提高组 day2 第 1 题。&lt;/p&gt;
+&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="算法题" scheme="http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/"/>
+    
+    
+    <category term="dp" scheme="http://example.com/tags/dp/"/>
+    
+    <category term="数论" scheme="http://example.com/tags/%E6%95%B0%E8%AE%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>测试文件</title>
+    <link href="http://example.com/2023/01/13/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6/"/>
+    <id>http://example.com/2023/01/13/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6/</id>
+    <published>2023-01-13T14:37:32.000Z</published>
+    <updated>2023-03-22T14:42:19.752Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="文章测试部分"><a href="#文章测试部分" class="headerlink" title="文章测试部分"></a>文章测试部分</h1><p>用于测试hexo的搭建</p><h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>test</p><pre><code class="lang-python">import testprint(&quot;hello world&quot;)</code></pre>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;文章测试部分&quot;&gt;&lt;a href=&quot;#文章测试部分&quot; class=&quot;headerlink&quot; title=&quot;文章测试部分&quot;&gt;&lt;/a&gt;文章测试部分&lt;/h1&gt;&lt;p&gt;用于测试hexo的搭建&lt;/p&gt;
+&lt;h2 id=&quot;测试&quot;&gt;&lt;a href=&quot;#测试&quot; class=&quot;heade</summary>
+      
+    
+    
+    
+    <category term="测试文件" scheme="http://example.com/categories/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6/"/>
+    
+    
+    <category term="test" scheme="http://example.com/tags/test/"/>
+    
+    <category term="hello world" scheme="http://example.com/tags/hello-world/"/>
+    
+  </entry>
+  
+</feed>

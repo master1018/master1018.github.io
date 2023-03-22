@@ -1,0 +1,329 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>master&#39;s blog || 【OJ】计算系数</title>
+    <meta name="author" content="Gardevoir">
+    <meta name="description" content=" ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/alear.jpg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="master's blog" type="application/atom+xml">
+</head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">master's blog</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>主页</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+        <a href="/categories">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>分类</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="filled" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>master's blog</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">主页</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+            <a href="/categories">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">分类</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>【OJ】计算系数 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/1/14
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/算法题">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                算法题
+            </a>
+        </span>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/dp" style=color:#ffa2c4>
+                    dp
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/数论" style=color:#00bcd4>
+                    数论
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <blockquote>
+<h1 id="NOIP2011-提高组-计算系数"><a href="#NOIP2011-提高组-计算系数" class="headerlink" title="[NOIP2011 提高组] 计算系数"></a>[NOIP2011 提高组] 计算系数</h1><h2 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h2><p>给定一个多项式 $(by+ax)^k$，请求出多项式展开后 $x^n\times y^m$ 项的系数。</p>
+<h2 id="输入格式"><a href="#输入格式" class="headerlink" title="输入格式"></a>输入格式</h2><p>输入共一行，包含 $5$ 个整数，分别为 $a,b,k,n,m$，每两个整数之间用一个空格隔开。</p>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><p>输出共一行，包含一个整数，表示所求的系数。</p>
+<p>这个系数可能很大，输出对 $10007$ 取模后的结果。</p>
+<h2 id="样例-1"><a href="#样例-1" class="headerlink" title="样例 #1"></a>样例 #1</h2><h3 id="样例输入-1"><a href="#样例输入-1" class="headerlink" title="样例输入 #1"></a>样例输入 #1</h3><pre><code>1 1 3 1 2
+</code></pre><h3 id="样例输出-1"><a href="#样例输出-1" class="headerlink" title="样例输出 #1"></a>样例输出 #1</h3><pre><code>3
+</code></pre><h2 id="提示"><a href="#提示" class="headerlink" title="提示"></a>提示</h2><p>【数据范围】</p>
+<p>对于 $30\%$ 的数据，有 $ 0\le k\le 10$。</p>
+<p>对于 $50\%$ 的数据，有 $ a=1$，$b=1$。</p>
+<p>对于 $100\%$ 的数据，有 $0\le k\le 1000$，$0\le n,m\le k$，$n+m=k$，$0\le a,b\le 10^6$。</p>
+<p>noip2011 提高组 day2 第 1 题。</p>
+</blockquote>
+<span id="more"></span>
+<p>第一眼思路：Cnm排列组合+快速模幂，然而太天真了。。。</p>
+<p>如果用Cnm的话，会牵扯到除法的模幂运算，然后又是逆元一些乱七八槽的玩意（不过有老哥貌似能推出来其他的计算公式）。</p>
+<p>既然Cnm走不通，那就去<del>百度</del>思考其他的方法。先考虑a和b均为1的形式：</p>
+<pre><code>(x + y)^1 = x + y
+
+(x + y)^2 = x^2 + 2xy + y^2
+
+(x + 3)^3 = x^3 + 3xy^2 + 3x^2y + y^3
+</code></pre><p>这样看可能不太明显，换一种表达方式 </p>
+<pre><code>1 1
+1 2 1
+1 3 3 1
+</code></pre><p>似乎是杨辉三角。。。根据初中的知识，杨辉三角是和二项式定理紧密相关的。</p>
+<p><img src="1.png" alt="1"></p>
+<p>那么事情就好办很多，直接dp，设杨辉三角的二维数组表达形式为<code>f(i, j)</code>，那么最终答案的表达式应该是：</p>
+<p>ans = f(i, j) <em> a^n </em> b^m，最终代码如下：</p>
+<pre><code class="lang-c++">#include &lt;iostream&gt;
+using namespace std;
+
+#define MOD (10007)
+typedef unsigned long long int ll;
+ll f[1005][1005] = &#123;&#123;0&#125;&#125;;
+ll a, b, k, n, m;
+
+void fun()
+&#123;
+    f[1][1] = 1;
+    for (ll i = 2; i &lt;= 1001; i++)
+    &#123;
+        f[i][1] = f[i][i] = 1;
+        for (ll j = 2; j &lt;= i - 1; j++)
+            f[i][j] = (f[i - 1][j - 1] + f[i - 1][j]) % MOD; 
+    &#125;
+&#125;
+
+ll quick_pow(ll x, ll y)&#123;
+    ll ans = 1;
+    while (y)
+    &#123;
+        if (y &amp; 1)
+            ans = ans * x % MOD;
+        x = (x * x) % MOD;
+        y &gt;&gt;= 1;
+    &#125;
+
+    return ans;
+&#125;
+
+int main()
+&#123;
+    fun();
+    cin &gt;&gt; a &gt;&gt; b &gt;&gt; k &gt;&gt; n &gt;&gt; m;
+    // x^n X y^m
+    cout &lt;&lt; (f[k + 1][m + 1] * (quick_pow(a, n) * quick_pow(b, m) % MOD)) % MOD &lt;&lt; endl;
+&#125;
+</code></pre>
+
+    </div>
+
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2018 - 2023 master&#39;s blog
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Gardevoir
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+</body>
+
+</html>

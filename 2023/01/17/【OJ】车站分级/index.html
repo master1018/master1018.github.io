@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>master&#39;s blog || 【OJ】车站分级</title>
+    <meta name="author" content="Gardevoir">
+    <meta name="description" content=" ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/alear.jpg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="master's blog" type="application/atom+xml">
+</head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">master's blog</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>主页</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+        <a href="/categories">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>分类</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="filled" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>master's blog</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">主页</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+            <a href="/categories">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">分类</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>【OJ】车站分级 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/1/17
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/算法题">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                算法题
+            </a>
+        </span>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/拓扑排序" style=color:#03a9f4>
+                    拓扑排序
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <p><strong>原题链接</strong></p>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1983">P1983 [NOIP2013 普及组] 车站分级 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></p>
+<span id="more"></span>
+<p><img src="1.png" alt="1"></p>
+<h2 id="输入输出样例"><a href="#输入输出样例" class="headerlink" title="输入输出样例"></a>输入输出样例</h2><p><strong>输入 #1</strong>复制</p>
+<pre><code>9 2 
+4 1 3 5 6 
+3 3 5 6
+</code></pre><p><strong>输出 #1</strong>复制</p>
+<pre><code>2
+</code></pre><p><strong>输入 #2</strong>复制</p>
+<pre><code>9 3 
+4 1 3 5 6 
+3 3 5 6 
+3 1 5 9
+</code></pre><p><strong>输出 #2</strong>复制</p>
+<pre><code>3
+</code></pre><p>题目中关键点：</p>
+<pre><code>如果这趟车次停靠了火车站x，则始发站、终点站之间所有级别大于等于火车站x的都必须停靠
+</code></pre><p>以样例1来说，第一趟火车停在了1，3，5，6，则站点2、4的级别均小于1、3、5、6；第二趟车停在了3、5、6，则4的级别小于3、5、6。那么我们可以得到这样的级别关系：</p>
+<pre><code>&#123;2, 4&#125; &lt; &#123;1, 3, 5, 6&#125;
+&#123;4&#125; &lt; &#123;3, 5, 6&#125;
+</code></pre><p>只知道2、4分别和1、3、5、6的关系，但不知道2和4的具体关系，以及1、3、5、6的关系，这种类型的排序正是拓扑排序，因此这道题显而易见的要使用到拓扑排序。</p>
+<p>但是知道拓扑排序很简单，但重要的是怎么从拓扑排序中获得这些车站的级别关系。根据题目要求，我们最终要获得拓扑排序的最长链才行，以此来设计的车站级别个数才会最少。</p>
+<p>在这里采用一个动态规划的思路，以下图为例：</p>
+<p><img src="2.webp" alt="2"></p>
+<p>设f(i)为从<code>入度为0</code>的结点到i结点的最长距离（经过的结点个数最多），那么在拓扑排序的中途，我们用f数组维护这样一个长度最大值。比如上图中，方位结点1后，去放分结点2和4（即2、4入队列），然后更新f(2)和f(4)为1。接着访问结点2指向的结点，会访问到结点4，此时有f(4) = max(f(4), f(2) + 1)，最终结果是更新f(4)为2，相关的代码部分如下：</p>
+<pre><code class="lang-c++">for (int j = 0; j &lt; g[x].size(); j++)
+&#123;
+    // 删去x -&gt; t这条边
+    int t = g[x][j]; 
+    f[t] = max(f[t], f[x] + 1);  // 更新到达结点t所经过的最长的路径
+    du[t]--;
+    if (!du[t]) q.push(t);
+&#125;
+</code></pre>
+<p>找到最长的路径后，路径的长度 + 1即为最终的答案（+1细品）。</p>
+<p>完整代码如下：</p>
+<pre><code class="lang-c++">#include &lt;iostream&gt;
+#include &lt;cstring&gt;
+#include &lt;cstdlib&gt;
+#include &lt;vector&gt;
+#include &lt;queue&gt;
+using namespace std;
+
+int f[1005] = &#123;0&#125;;
+
+vector&lt;int&gt; g[1005];  // 邻接表
+int du[1005], n, m, L[1005];
+int visti[1005][1005] = &#123;&#123;0&#125;&#125;; // visit用于判重，否则会MLE
+
+bool toposort()
+&#123;
+    memset(du, 0, sizeof(du));
+    for (int i = 0; i &lt; n; i++)
+        for (int j = 0; j &lt; g[i].size(); j++)
+            du[g[i][j]]++;
+    int tot = 0;
+    queue&lt;int&gt; q;
+    for (int i = 1; i &lt;= n; i++)
+        if (!du[i]) q.push(i), f[i] = 0;
+    while (!q.empty())
+    &#123;
+        int x = q.front(); q.pop();
+        L[tot++] = x; 
+        for (int j = 0; j &lt; g[x].size(); j++)
+        &#123;
+            // 删去x -&gt; t这条边
+            int t = g[x][j]; 
+            f[t] = max(f[t], f[x] + 1);
+            du[t]--;
+            if (!du[t]) q.push(t);
+        &#125;
+    &#125;
+    if (tot == n) return 1;
+    return 0;
+&#125;
+
+int main()
+&#123;
+    cin &gt;&gt; n &gt;&gt; m;
+    for (int k = 1; k &lt;= m; k++)
+    &#123;
+        int s;
+        cin &gt;&gt; s;
+        int a[1005] = &#123;0&#125;;
+        int pos[1005] = &#123;0&#125;;
+        for (int i = 1; i &lt;= s; i++)
+            cin &gt;&gt; a[i], pos[a[i]] = 1;
+        for (int i = a[1]; i &lt;= a[s]; i++)
+            if (!pos[i]) 
+                for (int j = a[1]; j &lt;= a[s]; j++)
+                    if (pos[j] &amp;&amp; !visti[i][j]) g[i].push_back(j), visti[i][j] = 1;
+
+    &#125;
+
+    toposort();
+    int ans = 0;
+    for (int i = 1; i &lt;= n; i++)
+        ans = max(ans, f[i]);
+    cout &lt;&lt; ans + 1 &lt;&lt; endl;
+
+    //system(&quot;pause&quot;);
+&#125;
+</code></pre>
+
+    </div>
+
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2018 - 2023 master&#39;s blog
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Gardevoir
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+</body>
+
+</html>
