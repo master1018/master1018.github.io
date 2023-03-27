@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>master&#39;s blog || 【CSP】训练计划</title>
+    <title>master&#39;s blog || </title>
     <meta name="author" content="Gardevoir">
     <meta name="description" content=" ">
     <meta name="keywords" content=" ">
@@ -134,142 +134,196 @@
                 </div>
 
                 <div id="main">
-                     
-<link rel="stylesheet" href="/css/post-body.css">
-<div class="article">
-    <div>
-        <h1>【CSP】训练计划 </h1>
-    </div>
-    <div class="info">
-        <span class="date">
-            <span class="icon">
-                <a-icon type="calendar" theme="filled" />
-            </span>
-            2023/2/28
+                    <div id="home-head" style=background-image:url('home2.webp')>
+    <script>
+        var menu = document.getElementById("menu")
+        menu.className += " menu-color"
+    </script>
+     
+    <div id="home-info" class="home-info" @click="home_click">
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="loop"></span>
+        <span class="info">
+            <div class="wrap">
+                <h1>master's blog</h1>
+                <h3></h3>
+                <h5></h5>
+            </div>
         </span>
+    </div>
+     
+</div>
+
+
+
+<div id="home-posts-wrap" class=>
+    <div id="home-posts">
+
+        <div id="posts">
+            
+
+<div class="post">
+
+    <a href="/2023/01/13/测试文件/">
+        <h2>
+            测试文件
+        </h2>
+    </a>
+
+    <div class="category-and-date">
 
         
         <span class="category">
-            <a href="/categories/算法题">
+            <a href="/categories/测试文件">
                 <span class="icon">
-                    <a-icon type="book" theme="filled" />
-                </span>
-                算法题
+                    <a-icon type="book" theme="filled" /></span>
+                测试文件
             </a>
         </span>
         
 
-        
-
-        <span class="tags">
+        <span class="date">
             <span class="icon">
-                <a-icon type="tags" theme="filled" />
+                <a-icon type="calendar" theme="filled" />
             </span>
+            2023/1/13
+        </span>
+
+    </div>
+
+    <div class="excerpt">
+        <div class="content" v-pre>
             
-            <span class="tag">
-                
-                <a href="/tags/csp" style=color:#00bcd4>
-                    csp
-                </a>
-            </span>
             
-            <span class="tag">
-                
-                <a href="/tags/AOE" style=color:#ffa2c4>
-                    AOE
-                </a>
-            </span>
+            <h1 id="文章测试部分"><a href="#文章测试部分" class="headerlink" title="文章测试部分"></a>文章测试部分</h1><p>用于测试hexo的搭建</p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><p>test</p>
+<pre><code class="lang-python">import test
+print(&quot;hello world&quot;)
+</code></pre>
+
             
-            <span class="tag">
-                
-                <a href="/tags/数组" style=color:#00bcd4>
-                    数组
-                </a>
-            </span>
+        </div>
+    </div>
+
+    <div class="post-tags">
+        
+        <span class="icon">
+            <a-icon type="tags" theme="filled" />
+        </span>
+        
+        
+        <span class="tag">
             
+            <a href="/tags/test" style=color:#03a9f4>
+                test
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/hello-world" style=color:#00bcd4>
+                hello world
+            </a>
         </span>
         
     </div>
 
-    <div class="content" v-pre>
-        <p><img src="1.png" alt="1"></p>
-<p>该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了<code>每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己</code>，因此在具体的实现过程中简单很多。</p>
-<span id="more"></span>
-<p>可以将整个任务网络看成一个树，子结点的最早开始时间依赖于父结点的最早开始时间，因此有：</p>
-<pre><code>early[i] = early[fa[i]] + cost[fa[i]]
-</code></pre><p>对于最晚开始时间，可以参考AOE网中的计算方法，而在该题中则简化了一些。使用一个vector存储每个结点的子结点，那么该结点的最迟开始时间依赖于子结点中最早的最迟开始时间（因为不能影响后续任务的进行）：</p>
-<pre><code>late[i] = min(late[son[i]]) - cost[i]
-</code></pre><p>在这里需要注意的是，最后一个完成的任务（也就是树的叶子结点）在计算时，需要+1，即：</p>
-<pre><code>late[i] = n - cost[i] + 1
-</code></pre><p>AC代码：</p>
-<pre><code class="lang-c++">#include &lt;iostream&gt;
-#include &lt;cmath&gt;
-#include &lt;vector&gt;
-using namespace std;
+    <a href="/2023/01/13/测试文件/ " class="go-post">
+        阅读全文
+    </a>
+</div>
 
 
-int n, m;
-int depend[1005], cost[1005];
-int early[1005], late[1005];
-vector&lt;int&gt; son[1005];
-int keyPathLen = 0;
+             
+<div class="page-current">
 
-int main()
-&#123;
-    cin &gt;&gt; n &gt;&gt; m;
-    for (int i = 1; i &lt;= m; i++)
-        cin &gt;&gt; depend[i];
-    for (int i = 1; i &lt;= m; i++)
-        cin &gt;&gt; cost[i];  
+    <div class="prev">
+        
+        <a href="/">
+            <span class="page-num">
+                <a-icon type="caret-left" theme="filled" />
+            </span>
+        </a>
+        
+    </div>
 
-    for (int i = 1; i &lt;= m; i++)
-        son[depend[i]].push_back(i);
+    <div class="page-index">
 
-    int canFinish = 1;
+        
+        <span>
 
-    // 最迟开始时间直接就是父节点的开始时间 + 父节点的消费时间
-    for (int i = 1; i &lt;= m; i++)
-    &#123;
-        // 根据题意，父节点只有一个
-        if (depend[i] == 0)
-            early[i] = 1;
-        else
-            early[i] = early[depend[i]] + cost[depend[i]];
-        if (early[i] + cost[i] - 1 &gt; n)
-            canFinish = 0;
-    &#125;
+            
 
-    //cout &lt;&lt; &quot;keyPathLen: &quot; &lt;&lt; keyPathLen &lt;&lt; endl;
-    for (int i = 1; i &lt;= m; i++)
-        cout &lt;&lt; early[i] &lt;&lt; &quot; &quot;;
-    cout &lt;&lt; endl;
-    // 求最迟时间
-    if (canFinish)
-    &#123;
-        for (int i = m; i &gt;= 1; i--)
-        &#123;
-            // 这里需要+1，具体可以找几个例子
-            if (son[i].size() == 0)
-                late[i] = n - cost[i] + 1;
-            else
-            &#123;
-                // 最晚时间是不影响子节点的开始时间，需要获得子节点中最小的最迟开始时间
-                int minLen = INT_MAX;
-                for (int j = 0; j &lt; son[i].size(); j++)
-                    minLen = min(minLen, late[son[i][j]]);
-                late[i] = minLen - cost[i];
-            &#125;
-        &#125;
-        for (int i = 1; i &lt;= m; i++)
-            cout &lt;&lt; late[i] &lt;&lt; &quot; &quot;;
-        cout &lt;&lt; endl;
-    &#125;
-    system(&quot;pause&quot;);
-&#125;
-</code></pre>
+            
+            <a href="/">
+                <span class="page-num">
+                    1
+                </span>
+            </a>
+        </span>
+        
+
+        <span class="current">
+            2
+        </span>
+
+        
 
     </div>
 
+    <div class="next">
+        
+    </div>
+
+</div>
+
+        </div>
+    </div>
+    
+    <div id="home-card">
+        <a-affix :offset-top="card_top">
+    <a-card class="card-style" style="width: 300px">
+        <div class="avatar">
+            <img src="images/alear.jpg " alt="头像">
+        </div>
+        <div class="name">
+            Gardevoir
+        </div>
+        <div class="descriptions">
+            
+            <div class="description">
+                如何评价。。。
+            </div>
+            
+        </div>
+        <div class="icon-links">
+            
+            <span class="icon-link">
+                <a target="_blank" rel="noopener" href="https://github.com/master1018">
+
+                    
+                    <a-icon type="github"
+                        theme="filled" />
+                    
+                </a>
+            </span>
+            
+        </div>
+    <!--    <div class="friend-links">
+            
+            <div class="friend-link">
+                <a target="_blank" rel="noopener" href="https://en.korilin.com">
+                    其他1
+                </a>
+            </div>
+            
+        </div>
+    -->
+    </a-card>
+</a-affix>
+    </div>
     
 </div>
                      
