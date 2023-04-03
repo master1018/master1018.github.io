@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-03-27T07:21:53.501Z</updated>
+  <updated>2023-03-28T03:14:00.200Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WIFI认证过程-Wireshark抓包分析</title>
+    <link href="http://example.com/2023/03/28/WIFI%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B-Wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/"/>
+    <id>http://example.com/2023/03/28/WIFI%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B-Wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/</id>
+    <published>2023-03-28T02:32:52.000Z</published>
+    <updated>2023-03-28T03:14:00.200Z</updated>
+    
+    <content type="html"><![CDATA[<p>实验环境为MacOs，使用的工具为airport、mac自带的嗅探器以及wireshark，以手机热点Mate 30 5G作为测试AP，实验目的为抓去wifi接入认证的数据包，并分析wifi认证的过程。</p><span id="more"></span><p>首先使用<code>sudo airport -s</code>来获取周围的无线信号的BSSID以及SSID，找到手机开放的热点：<br><img src="2.png" alt="2"></p><p>然后将电脑的网卡改为监听模式，具体步骤：</p><ul><li>打开无线诊断</li><li>点击左上角窗口</li><li>选择嗅探器并开始</li><li>在wireshark里，点击设置图标，将网卡勾选monitor选项。</li><li><img src="3.png" alt="3"></li></ul><p>这样以来，wireshark就可以监听802.11的wifi数据包了。</p><p>最后，用另一台设备连接手机，wireshark进行抓包，获得关键数据包如下：</p><p><img src="1.png" alt="1"></p><p>分析数据包，可以得到wifi接入认证的过程：</p><ul><li>主机向AP发送probe req</li><li>AP回应主机probe rep</li><li>主机和AP进行认证，确认对方是不是802.11设备（互发aut包）</li><li>主机和AP进行关联，发送ass包</li></ul><p>到此为止，主机与AP建立好了无线链路，下一步就是4次握手的过程了。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;实验环境为MacOs，使用的工具为airport、mac自带的嗅探器以及wireshark，以手机热点Mate 30 5G作为测试AP，实验目的为抓去wifi接入认证的数据包，并分析wifi认证的过程。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="无线网络安全" scheme="http://example.com/categories/%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="wifi安全" scheme="http://example.com/tags/wifi%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="wireshark" scheme="http://example.com/tags/wireshark/"/>
+    
+  </entry>
   
   <entry>
     <title>线段树学习笔记</title>
