@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-03-28T03:14:00.200Z</updated>
+  <updated>2023-04-09T15:03:48.802Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>IotGoat漏洞挖掘--Web注入</title>
+    <link href="http://example.com/2023/04/09/IotGoat%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98-Web%E6%B3%A8%E5%85%A5/"/>
+    <id>http://example.com/2023/04/09/IotGoat%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98-Web%E6%B3%A8%E5%85%A5/</id>
+    <published>2023-04-09T14:27:24.000Z</published>
+    <updated>2023-04-09T15:03:48.802Z</updated>
+    
+    <content type="html"><![CDATA[<p>靶机：IotGoat</p><p><a href="https://github.com/OWASP/IoTGoat">https://github.com/OWASP/IoTGoat</a></p><p>本次实验通过对IotGoat进行分析，针对其众多漏洞中的一个web漏洞，实现注入的目的，从而达到攻击的目的。</p><span id="more"></span><h2 id="信息搜集"><a href="#信息搜集" class="headerlink" title="信息搜集"></a>信息搜集</h2><p>首先用binwalk工具对IotGoat固件进行解包，得到固件的文件系统：<br><img src="1.png" alt="1"></p><p>通过对文件的分析，或者使用firmwalker工具进行自动化的分析，可以知道该固件具有哪些服务，比如ssh、http、https等。用虚拟机启动靶机，根据提示打开web界面，发现网址链接为<a href="https://192.168.43.168:9443/cgi-bin/luci。">https://192.168.43.168:9443/cgi-bin/luci。</a></p><p>接着通过find指令找到luci的文件，发现如下代码段：</p><pre><code class="lang-lua">require &quot;luci.cacheloader&quot;require &quot;luci.sgi.cgi&quot;luci.dispatcher.indexcache = &quot;/tmp/luci-indexcache&quot;luci.sgi.cgi.run()</code></pre><p>搜索<code>/tmp/luci-indexcache</code>但并没有任何发现，但是我们可以注意到该代码里面引用的都是luci的文件，因此可以将重点集中在usr/lib/lua/luci文件夹下。</p><p>经过搜寻发现controller的文件夹，可能包含一些控制信息，于是就发现了如下代码：</p><pre><code class="lang-lua">module(&quot;luci.controller.iotgoat.iotgoat&quot;, package.seeall)local http = require(&quot;luci.http&quot;)function index()    entry(&#123;&quot;admin&quot;, &quot;iotgoat&quot;&#125;, firstchild(), &quot;IoTGoat&quot;, 60).dependent=false    entry(&#123;&quot;admin&quot;, &quot;iotgoat&quot;, &quot;cmdinject&quot;&#125;, template(&quot;iotgoat/cmd&quot;), &quot;&quot;, 1)    entry(&#123;&quot;admin&quot;, &quot;iotgoat&quot;, &quot;cam&quot;&#125;, template(&quot;iotgoat/camera&quot;), &quot;Camera&quot;, 2)    entry(&#123;&quot;admin&quot;, &quot;iotgoat&quot;, &quot;door&quot;&#125;, template(&quot;iotgoat/door&quot;), &quot;Doorlock&quot;, 3)    entry(&#123;&quot;admin&quot;, &quot;iotgoat&quot;, &quot;webcmd&quot;&#125;, call(&quot;webcmd&quot;))endfunction webcmd()    local cmd = http.formvalue(&quot;cmd&quot;)    if cmd then        local fp = io.popen(tostring(cmd)..&quot; 2&gt;&amp;1&quot;)        local result =  fp:read(&quot;*a&quot;)        fp:close()        result = result:gsub(&quot;&lt;&quot;, &quot;&amp;lt;&quot;)        http.write(tostring(result))    else        http.write_json(http.formvalue())    endend</code></pre><p>不难看出，webcmd可能是运行一些系统中命令的函数，于是在浏览器中输入:<a href="https://192.168.43.168:9443/cgi-bin/luci/admin/iotgoat/webcmd?cmd=ls，得到以下信息：">https://192.168.43.168:9443/cgi-bin/luci/admin/iotgoat/webcmd?cmd=ls，得到以下信息：</a></p><p><img src="2.png" alt="2"></p><p>可以看见的是，我们成功在目标靶机上运行了ls指令，那么只要在cmd后输入相关的指令，目标靶机也会成功的执行，至此实现了简单的web注入。</p><h2 id="漏洞的应用"><a href="#漏洞的应用" class="headerlink" title="漏洞的应用"></a>漏洞的应用</h2><p>通过Web注入的漏洞利用，可以进行一些有意思的事情，例如运行nc打开某个端口作为后门，又或者是直接的编写一些脚步注入再进行运行，删除一些系统文件，破坏目标靶机等等。</p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;靶机：IotGoat&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/OWASP/IoTGoat&quot;&gt;https://github.com/OWASP/IoTGoat&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本次实验通过对IotGoat进行分析，针对其众多漏洞中的一个web漏洞，实现注入的目的，从而达到攻击的目的。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="物联网安全" scheme="http://example.com/categories/%E7%89%A9%E8%81%94%E7%BD%91%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="漏洞挖掘" scheme="http://example.com/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/"/>
+    
+    <category term="Web注入" scheme="http://example.com/tags/Web%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>WIFI认证过程-Wireshark抓包分析</title>
