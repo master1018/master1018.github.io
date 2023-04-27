@@ -1,3 +1,4 @@
+http://example.com/2023/04/27/PhyAUth%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/
 http://example.com/2023/04/10/WIFI%E5%AF%86%E7%A0%81%E7%A0%B4%E8%A7%A3/
 http://example.com/2023/04/09/IotGoat%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98-Web%E6%B3%A8%E5%85%A5/
 http://example.com/2023/03/28/WIFI%E8%AE%A4%E8%AF%81%E8%BF%87%E7%A8%8B-Wireshark%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90/
@@ -38,6 +39,8 @@ http://example.com/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/
 http://example.com/tags/Web%E6%B3%A8%E5%85%A5/
 http://example.com/tags/WPA-PSK/
 http://example.com/tags/aircrack-ng/
+http://example.com/tags/%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81/
+http://example.com/tags/ZigBee/
 http://example.com/categories/%E7%AE%97%E6%B3%95%E9%A2%98/
 http://example.com/categories/%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6/
 http://example.com/categories/%E7%AE%97%E6%B3%95/
