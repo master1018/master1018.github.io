@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<html lang="en ">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>master&#39;s blog || streamlit前端搭建</title>
+    <meta name="author" content="Gardevoir">
+    <meta name="description" content=" ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/ana.jpg">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/full-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="master's blog" type="application/atom+xml">
+</head>
+
+<body>
+
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">master's blog</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>主页</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>归档</span>
+        </a>
+        
+        <a href="/categories">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>分类</span>
+        </a>
+        
+        <a href="/tags">
+            <span>
+                <a-icon type="tags" theme="filled" />
+            </span>
+            <span>标签</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>master's blog</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">主页</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">归档</div>
+                </div>
+            </a>
+            
+            <a href="/categories">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">分类</div>
+                </div>
+            </a>
+            
+            <a href="/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">标签</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>streamlit前端搭建 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2023/6/21
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/前端">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                前端
+            </a>
+        </span>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/streamlit" style=color:#00a596>
+                    streamlit
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/aggrid" style=color:#03a9f4>
+                    aggrid
+                </a>
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/echarts" style=color:#00bcd4>
+                    echarts
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于最近一些比赛需要前端的搭建来包装一些丑陋的大黑框，因此纠结于使用qt呢还是pythpn flask。但本人并没有任何前端的开发经验，只用过一个python的tkinter做过一个💩的数据库管理系统。好在经过不懈的努力，发现了这样一个帖子<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/448912854，发现了宝贝一般的streamlit。">https://zhuanlan.zhihu.com/p/448912854，发现了宝贝一般的streamlit。</a></p>
+<span id="more"></span>
+<p>简单的来说，streamlit是一种相对静态的网页前端框架，并且主要基于markdown（你可以直接把写好的markdown当作网页生成），感觉和hexo博客框架很像？</p>
+<p>经过几天的使用，我发现streamlit的程序运行逻辑很神奇，它似乎是不断的重复运行你的前端程序，类似于下面的代码段：</p>
+<pre><code class="lang-python">while True:
+    main()
+</code></pre>
+<p>因此肉眼可见的是，streamlit的性能并不是很高，有的时候还挺卡的。但对于前端需求不是很大的场景，用streamlit绰绰有余，比如只需显示一些结果。</p>
+<p>下面就记录一下我使用streamlit的一些过程，和streamlit常用的组件。</p>
+<h2 id="session-state"><a href="#session-state" class="headerlink" title="session_state"></a>session_state</h2><p>session_state可以用于记录streamlit的会话状态，如果说streamlit整体就是一个循环运行的函数，那么session_state就是全局变量，可以保存每一次运行函数中的信息，比如我要记录test函数的运行次数。正常来说肯定是在代码里设置一个，比方说g_flag，每执行一次test函数，g_flag++，但在实际运行过程中，你可能会发现每次打印g_flag，它的值都为0，但明明运行了不止一遍的test。</p>
+<p>此时就需要session_state，下面给出错误写法以及正确写法。</p>
+<p><strong>Wrong</strong></p>
+<pre><code class="lang-python">g_flag = 0
+
+def test():
+  g_flag += 1
+  print(g_flag)
+  return 0
+
+if __name__==&quot;__main__&quot;:
+  test()
+</code></pre>
+<p><strong>Right</strong></p>
+<pre><code class="lang-python">def init():
+    if &quot;g_flag&quot; not in st.session_state:
+        st.session_state.g_flag = 0
+
+def test():
+  st.session_state.g_flag += 1
+  print(st.session_state.g_flag)
+  return 0
+
+if __name__==&quot;__main__&quot;:
+  test()
+</code></pre>
+<p>而其session_state的自由度非常高，你可以给它添加任何类型的元素。</p>
+<h2 id="write-amp-amp-text-amp-amp-code"><a href="#write-amp-amp-text-amp-amp-code" class="headerlink" title="write &amp;&amp; text &amp;&amp; code"></a>write &amp;&amp; text &amp;&amp; code</h2><p>write和text、code都能够显示文本，但各有各的特点。</p>
+<p>首先是write，它是将字符串以markdown<strong>源码</strong>的形式直接写到前端界面，注意这个源码就有坑，有些时候一些特殊的字符会安装markdown内的规则显示，比如会讲两个*号之间的字符当成黑体，而实际我们可能并不想这么显示，同理其他各种各样的markdown的特殊字符。</p>
+<p>对于上面问题的解决，可以使用text，text是直接当成文本进行输出，并且输出的字体样式有时候还挺好看的，但text的一个缺点就是不能自动换行（可能需要进行设置，反正我不会），这就导致你输入一段很长的字符，就必须靠text提供的横向的滚动条来查看所有内容。</p>
+<p>最后是code，code就是显示markdwon的代码段格式，但它也不能换行，不过至少对于代码显示比较好看。</p>
+<p>不过综合起来，write的功能是最强的，因为它有很多的参数可以选择，被誉为streamlit的瑞士军刀。</p>
+<h2 id="button"><a href="#button" class="headerlink" title="button"></a>button</h2><p>作为前端，肯定要有交互，streamlit最常用的就是button了，简单易懂，只需设置一个名字，一个回掉函数就可以了，例如：</p>
+<pre><code class="lang-python">def callback():
+  st.write(&quot;success&quot;)
+
+def main():
+  st.button(&quot;click&quot;, on_click=callback)
+
+main()
+</code></pre>
+<p>这样当我们点击按钮后，就会显示success的提示符。</p>
+<p>默认的button比较丑，但是可以通过css样式进行调整，或者是streamlit的组件streamlit_option_menu。</p>
+<h2 id="css"><a href="#css" class="headerlink" title="css"></a>css</h2><p>刚才提到了css样式的设置，实际上对于css样式我也不太懂，但是在streamlit可以通过markdown文件进行设置css，比如以下的代码就对button设置了样式，让它变成红色的背景。</p>
+<pre><code class="lang-python">    m = st.markdown(&quot;&quot;&quot;
+    &lt;style&gt;
+    div.stButton &gt; button:first-child &#123;
+        background-color: #f44336; /* Green */
+        border: none;
+        color: white;
+        padding: 20px 40px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    &#125;
+    &lt;/style&gt;&quot;&quot;&quot;, unsafe_allow_html=True)
+</code></pre>
+<h2 id="图片以及视频的显示"><a href="#图片以及视频的显示" class="headerlink" title="图片以及视频的显示"></a>图片以及视频的显示</h2><p>前端不能没有图片，就像西方不能没有耶路撒冷。。。</p>
+<p>streamlit中可以通过st.image来插入图片以及gif图，但视频的插入，以及图片的一些调整很难实现，这是就需要html这个函数了，通过st.html可以直接将输入的html语句转换到前端显示，因此可以非常方便的播放一些视频，比如下面的例子，就是我在做前端是，实现了循环播放一个小视频，作为前端的动态效果。</p>
+<pre><code class="lang-python">st.markdown(&quot;&quot;&quot;
+            &lt;video width=&quot;250&quot; autoplay=&quot;true&quot; muted=&quot;true&quot; loop=&quot;true&quot; align=&quot;center&quot;&gt;
+            &lt;source 
+                    src=&quot;https://www.jfrogchina.com/wp-content/uploads/2020/02/efficient.mp4&quot; 
+                    type=&quot;video/mp4&quot; /&gt;
+            &lt;/video&gt;
+                &quot;&quot;&quot;, unsafe_allow_html=True)
+</code></pre>
+<p>width设置的是视频的大小，autoplay可以设置视频自动播放，loop设置视频的循环播放。在这里不要加入controls参数，否则视频会有一个播放将以及进度条的显示，比较丑。</p>
+<p>我在使用的过程发现，src最好是远程的视频链接，本地连接有些bug，如果要使用本地连接，要么开apache，要么用python -m http.server在当前文件夹下开一个服务。</p>
+<h2 id="columns分割界面"><a href="#columns分割界面" class="headerlink" title="columns分割界面"></a>columns分割界面</h2><p>有时候像写报告式的步骤前端会比较多单调，难看，我们在设计前端时往往会使界面变得更加多层次化，复杂化。比如左边放图片，右边放个表，他俩的下面在放一段字。</p>
+<p>streamlit布置界面的思路是markdown，但不难发现markdown文本显示都是一拖到底，此时就可以用st.columns来分割界面。</p>
+<p>比如c1, c2 = st.columns(2)，按照1：1分割界面，左边的c1可以单独的使用，右边的c2也可以单独使用，c1和c2的用法和st一模一样，你也可以对c1进行继续分割。</p>
+<p>如果不想按照1:1的比例，想分割页面为1:2:2，可以直接写成c1, c2, c3 = st.columns([0.2, 0.4, 0.4])。</p>
+<p>当然，如果想要界面更加的好看，可以使用streamlit_elements组件，它至少可以实现下面的效果。</p>
+<p><img src="1.png" alt="1"></p>
+<p>未完待续。。。</p>
+
+    </div>
+
+    
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2018 - 2023 master&#39;s blog
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Gardevoir
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
+    </div>
+
+</footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
+    </div>
+
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
+
+</body>
+
+</html>
