@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2023-02-28T14:51:06.612Z</updated>
+  <updated>2023-10-17T09:31:22.552Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,20 +17,42 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>【CSP】训练计划</title>
-    <link href="http://example.com/2023/02/28/%E3%80%90CSP%E3%80%91%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/"/>
-    <id>http://example.com/2023/02/28/%E3%80%90CSP%E3%80%91%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92/</id>
-    <published>2023-02-28T14:18:05.000Z</published>
-    <updated>2023-02-28T14:51:06.612Z</updated>
+    <title>对于Online Service System中Incident的一些empricial study</title>
+    <link href="http://example.com/2023/10/15/AI-for-Incident-of-Online-Service-System/"/>
+    <id>http://example.com/2023/10/15/AI-for-Incident-of-Online-Service-System/</id>
+    <published>2023-10-15T09:11:25.000Z</published>
+    <updated>2023-10-17T09:31:22.552Z</updated>
     
-    <content type="html"><![CDATA[<p><img src="1.png" alt="1"></p><p>该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了<code>每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己</code>，因此在具体的实现过程中简单很多。</p><span id="more"></span><p>可以将整个任务网络看成一个树，子结点的最早开始时间依赖于父结点的最早开始时间，因此有：</p><pre><code>early[i] = early[fa[i]] + cost[fa[i]]</code></pre><p>对于最晚开始时间，可以参考AOE网中的计算方法，而在该题中则简化了一些。使用一个vector存储每个结点的子结点，那么该结点的最迟开始时间依赖于子结点中最早的最迟开始时间（因为不能影响后续任务的进行）：</p><pre><code>late[i] = min(late[son[i]]) - cost[i]</code></pre><p>在这里需要注意的是，最后一个完成的任务（也就是树的叶子结点）在计算时，需要+1，即：</p><pre><code>late[i] = n - cost[i] + 1</code></pre><p>AC代码：</p><pre><code class="lang-c++">#include &lt;iostream&gt;#include &lt;cmath&gt;#include &lt;vector&gt;using namespace std;int n, m;int depend[1005], cost[1005];int early[1005], late[1005];vector&lt;int&gt; son[1005];int keyPathLen = 0;int main()&#123;    cin &gt;&gt; n &gt;&gt; m;    for (int i = 1; i &lt;= m; i++)        cin &gt;&gt; depend[i];    for (int i = 1; i &lt;= m; i++)        cin &gt;&gt; cost[i];      for (int i = 1; i &lt;= m; i++)        son[depend[i]].push_back(i);    int canFinish = 1;    // 最迟开始时间直接就是父节点的开始时间 + 父节点的消费时间    for (int i = 1; i &lt;= m; i++)    &#123;        // 根据题意，父节点只有一个        if (depend[i] == 0)            early[i] = 1;        else            early[i] = early[depend[i]] + cost[depend[i]];        if (early[i] + cost[i] - 1 &gt; n)            canFinish = 0;    &#125;    //cout &lt;&lt; &quot;keyPathLen: &quot; &lt;&lt; keyPathLen &lt;&lt; endl;    for (int i = 1; i &lt;= m; i++)        cout &lt;&lt; early[i] &lt;&lt; &quot; &quot;;    cout &lt;&lt; endl;    // 求最迟时间    if (canFinish)    &#123;        for (int i = m; i &gt;= 1; i--)        &#123;            // 这里需要+1，具体可以找几个例子            if (son[i].size() == 0)                late[i] = n - cost[i] + 1;            else            &#123;                // 最晚时间是不影响子节点的开始时间，需要获得子节点中最小的最迟开始时间                int minLen = INT_MAX;                for (int j = 0; j &lt; son[i].size(); j++)                    minLen = min(minLen, late[son[i][j]]);                late[i] = minLen - cost[i];            &#125;        &#125;        for (int i = 1; i &lt;= m; i++)            cout &lt;&lt; late[i] &lt;&lt; &quot; &quot;;        cout &lt;&lt; endl;    &#125;    system(&quot;pause&quot;);&#125;</code></pre>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;img src=&quot;1.png&quot; alt=&quot;1&quot;&gt;&lt;/p&gt;
-&lt;p&gt;该题表达的意思就AOE网络中任务的最早开始时间和最迟开始时间。而由于题目中明确标明了&lt;code&gt;每项科目最多只依赖一项别的科目，且满足依赖科目的编号小于自己&lt;/code&gt;，因此在具体的实现过程中简单很多。&lt;/p&gt;</summary>
+    <content type="html"><![CDATA[<ul><li>Incident management:  Continuous Incident Triage for Large-Scale Online Service Systems. </li><li>How to Mitigate the Incident? An Effective Troubleshooting Guide Recommendation Technique for Online Service Systems. </li><li>How Incidental are the Incidents? Characterizing and Prioritizing Incidents for Large-Scale Online Service Systems.</li><li>Recommending Root-Cause and Mitigation Steps for Cloud Incidents using Large Language Models</li><li>How to Fight Production Incidents? An Empirical Study on a Large-scale Cloud Service  </li></ul><h2 id="什么是Incident？"><a href="#什么是Incident？" class="headerlink" title="什么是Incident？"></a>什么是Incident？</h2><p>在软件工程的软件维护方面，incident指软件发生的一些事件，而这些事件往往会导致系统一些崩溃、停机等。目前，许多在线服务系统都会受突发的事件而导致系统的崩溃、停止运行，从而给公司带来巨大的经济损失。</p><p>incident具有以下的生命周期：</p><p><strong>Detection</strong>：检测器或人工发现incident的发生，<em>该过程往往会产生对于incident的描述</em>。</p><p><strong>Triaging</strong>：根据incident的描述，对发生的incident进行分类，从而能够将incident分配给特定的人员去诊断、解决。</p><p><strong>Diagnosis</strong>：对incident进行诊断，分析发生的原因。</p><p><strong>Mitigation</strong>：采取措施，缓和incident，从而修复系统，减少带来的经济损失。</p><p>Triaging、Diagnosis两个阶段以及Mitigation阶段中相关措施的确定，目前主要还是通过工程师之间讨论来进行决定的，而由于人工的介入，会带来很大的延迟，因此，上述论文主要探究这些过程的一个自动化。</p><span id="more"></span><h3 id="Incident描述报告的格式"><a href="#Incident描述报告的格式" class="headerlink" title="Incident描述报告的格式"></a>Incident描述报告的格式</h3><pre><code>Title: Attach vm fails with connection timeout Summary: The workspace is not associated with any vnet. Customer has a vm which is already running inside a vnet. They like to attach that vm into [product omitted]. We tried the UI and CLI route, but still fails with same connection timeout error. Error points that it resolves to some public ip [...] root cause: It is not supported to attach a private vm to a public workspace directly. mitigation: Open a task to provide better official document for customer on the topic of virtual machine.</code></pre><p>主要关注的部分为Incident的概述、详细情况、根本原因（如果有的话）。在实际的生产过程，往往监测器会自动生成对于incident的一个描述，而其导致原因和缓和的方法需要人工进一步的分析。</p><p>相关研究对incident对根因进行分析，具体可分为以下种类：</p><div class="markmap-container" style="height:undefined">  <svg data="{&quot;t&quot;:&quot;heading&quot;,&quot;d&quot;:1,&quot;p&quot;:{&quot;lines&quot;:[0,1]},&quot;v&quot;:&quot;Root Cause&quot;,&quot;c&quot;:[{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[1,2]},&quot;v&quot;:&quot;code related - 40%&quot;,&quot;c&quot;:[{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:5,&quot;p&quot;:{&quot;lines&quot;:[2,3]},&quot;v&quot;:&quot;Code Bug&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:5,&quot;p&quot;:{&quot;lines&quot;:[3,4]},&quot;v&quot;:&quot;Config Bug&quot;}]},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[4,5]},&quot;v&quot;:&quot;non-code related - 60%&quot;,&quot;c&quot;:[{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:5,&quot;p&quot;:{&quot;lines&quot;:[5,6]},&quot;v&quot;:&quot;Dependency Failure&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:5,&quot;p&quot;:{&quot;lines&quot;:[6,7]},&quot;v&quot;:&quot;Infrastructure&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:5,&quot;p&quot;:{&quot;lines&quot;:[7,8]},&quot;v&quot;:&quot;Deployment Error&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:5,&quot;p&quot;:{&quot;lines&quot;:[8,9]},&quot;v&quot;:&quot;Database/Network&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:5,&quot;p&quot;:{&quot;lines&quot;:[9,10]},&quot;v&quot;:&quot;Auth Failure&quot;}]}]}"/></div><p>60%的incident是由于非代码问题引起的，比如基础架构（CPU性能等）、依赖组件出现问题等引起的。</p><p>针对出现的故障事件，目前也有多种缓和的方法，而很多缓和的方法没有涉及到对于代码或者配置的一些修复，比如说回滚操作，云服务中更换正常的节点等。</p><div class="markmap-container" style="height:undefined">  <svg data="{&quot;t&quot;:&quot;heading&quot;,&quot;d&quot;:1,&quot;p&quot;:{&quot;lines&quot;:[1,2]},&quot;v&quot;:&quot;Mitigation Step&quot;,&quot;c&quot;:[{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[3,4]},&quot;v&quot;:&quot;Rollback&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[4,5]},&quot;v&quot;:&quot;Infra Change&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[5,6]},&quot;v&quot;:&quot;External Fix&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[6,7]},&quot;v&quot;:&quot;Config Fix&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[7,8]},&quot;v&quot;:&quot;Ad-hoc Fix&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[8,9]},&quot;v&quot;:&quot;Code Fix&quot;},{&quot;t&quot;:&quot;list_item&quot;,&quot;d&quot;:3,&quot;p&quot;:{&quot;lines&quot;:[9,10]},&quot;v&quot;:&quot;Transient&quot;}]}"/></div><p>尽管针对Incident已有一个比较成熟的分析、缓和路线，但是在实际的过程中，由于一些问题，会导致各种各样的延误，从而影响incident的发现、缓和过程。论文中，主要从detection和mitigation两个方面探讨导致延误的原因。</p><p><strong>导致detection延误的原因</strong></p><p><img src="1.png" alt="1"></p><p>缺少相关的监测器以及一些特殊情况的监测无法覆盖，是导致detection delay的主要原因。</p><p><strong>导致mitigation延误的原因</strong></p><p><img src="2.png" alt="2"></p><p>人工的介入、糟糕的文档说明（比如写的很烂的TSG）等是主要导致mitigation延误等原因。</p><p>通过与工程师的沟通，论文中也总结了对于一些优化的方法。</p><p>例如对于detection监测不到位的情况，可以增加一些特殊情况的测试用例，以便在对监测器进行测试的阶段就能够发现这些潜在的问题；而对于mitigation，可以提高自动化的一个程度，减少人工的一个干预等。</p><p>而从前面incident的生命周期也可以看出，有很大一部分的过程都需要自动化来代替人工的干预。因此，上面的论文主要通过对于incident的描述以及开会时的discussion进行分析，从而帮助定为incident的性质、缓解方法。</p>]]></content>
     
     
+    <summary type="html">&lt;ul&gt;
+&lt;li&gt;Incident management:  Continuous Incident Triage for Large-Scale Online Service Systems. &lt;/li&gt;
+&lt;li&gt;How to Mitigate the Incident? An Effective Troubleshooting Guide Recommendation Technique for Online Service Systems. &lt;/li&gt;
+&lt;li&gt;How Incidental are the Incidents? Characterizing and Prioritizing Incidents for Large-Scale Online Service Systems.&lt;/li&gt;
+&lt;li&gt;Recommending Root-Cause and Mitigation Steps for Cloud Incidents using Large Language Models&lt;/li&gt;
+&lt;li&gt;How to Fight Production Incidents? An Empirical Study on a Large-scale Cloud Service  &lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;什么是Incident？&quot;&gt;&lt;a href=&quot;#什么是Incident？&quot; class=&quot;headerlink&quot; title=&quot;什么是Incident？&quot;&gt;&lt;/a&gt;什么是Incident？&lt;/h2&gt;&lt;p&gt;在软件工程的软件维护方面，incident指软件发生的一些事件，而这些事件往往会导致系统一些崩溃、停机等。目前，许多在线服务系统都会受突发的事件而导致系统的崩溃、停止运行，从而给公司带来巨大的经济损失。&lt;/p&gt;
+&lt;p&gt;incident具有以下的生命周期：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Detection&lt;/strong&gt;：检测器或人工发现incident的发生，&lt;em&gt;该过程往往会产生对于incident的描述&lt;/em&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Triaging&lt;/strong&gt;：根据incident的描述，对发生的incident进行分类，从而能够将incident分配给特定的人员去诊断、解决。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Diagnosis&lt;/strong&gt;：对incident进行诊断，分析发生的原因。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Mitigation&lt;/strong&gt;：采取措施，缓和incident，从而修复系统，减少带来的经济损失。&lt;/p&gt;
+&lt;p&gt;Triaging、Diagnosis两个阶段以及Mitigation阶段中相关措施的确定，目前主要还是通过工程师之间讨论来进行决定的，而由于人工的介入，会带来很大的延迟，因此，上述论文主要探究这些过程的一个自动化。&lt;/p&gt;</summary>
     
+    
+    
+    <category term="AIOps" scheme="http://example.com/categories/AIOps/"/>
+    
+    <category term="Software Engineering" scheme="http://example.com/categories/AIOps/Software-Engineering/"/>
+    
+    <category term="Empricial Study" scheme="http://example.com/categories/AIOps/Software-Engineering/Empricial-Study/"/>
+    
+    
+    <category term="Incident" scheme="http://example.com/tags/Incident/"/>
+    
+    <category term="Online Service System" scheme="http://example.com/tags/Online-Service-System/"/>
     
   </entry>
   
